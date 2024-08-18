@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nallagram/screens/Story/storyview.dart';
+import '../screens/Story/storyview.dart';
 
 class StoryWid extends StatelessWidget {
   final String name;
   final String img;
 
-  const StoryWid({Key key, this.name ,this.img}) : super(key: key);
+  const StoryWid({required Key key, required this.name ,required this.img}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +16,7 @@ class StoryWid extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => StoryPageView()));
+                  MaterialPageRoute(builder: (context) => StoryPageView(key: Key('a'),)));
             },
             child: Container(
               width: 60,

@@ -2,14 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:nallagram/screens/Profile/profile_upload.dart';
+import 'package:unipp/screens/Profile/profile_upload.dart';
 
 final _auth = FirebaseAuth.instance;
 final _store = FirebaseFirestore.instance;
-String _name;
-String _descr;
+late String _name;
+late String _descr;
 
-User loggedInUser;
+late User? loggedInUser = _auth.currentUser;
 
 class EditPage extends StatefulWidget {
   @override
@@ -80,7 +80,7 @@ class _EditPageState extends State<EditPage> {
                             borderRadius: BorderRadius.circular(32),
                             image: DecorationImage(
                                 image: CachedNetworkImageProvider(
-                                    loggedInUser.photoURL),
+                                    loggedInUser!.photoURL!),
                                 fit: BoxFit.cover)),
                       ),
                       TextButton(

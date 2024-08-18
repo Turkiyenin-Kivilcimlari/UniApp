@@ -50,7 +50,7 @@ class _CommentsPageState extends State<CommentsPage> {
 
   //initialising firestore
 
-  String commentText;
+  late String commentText;
 
   @override
   void initState() {
@@ -121,9 +121,9 @@ class _CommentsPageState extends State<CommentsPage> {
                         .doc(widget.postID)
                         .collection('comments')
                         .add({
-                      'name': loggedInUser.displayName,
+                      'name': loggedInUser?.displayName,
                       'comment': commentText,
-                      'profile': loggedInUser.photoURL,
+                      'profile': loggedInUser?.photoURL,
                       'timestamp': FieldValue.serverTimestamp(),
                     });
                     //Implement send functionality.
@@ -152,7 +152,7 @@ class MessageBubble extends StatefulWidget {
   final String sender;
 
   MessageBubble(
-      {@required this.text, @required this.sender, @required this.url});
+      {required this.text, required this.sender, required this.url});
 
   @override
   State<MessageBubble> createState() => _MessageBubbleState();
@@ -170,7 +170,7 @@ class _MessageBubbleState extends State<MessageBubble> {
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(loggedInUser.photoURL),
+                  backgroundImage: NetworkImage(loggedInUser!.photoURL!),
                 ),
                 SizedBox(
                   width: 10,
@@ -277,9 +277,9 @@ class MessageStream extends StatelessWidget {
             ),
           );
         }
-        final messages = snapshot.data.docs.reversed;
+        final messages = snapshot.data?.docs.reversed;
 
-        for (var message in messages) {
+        for (var message in messages!) {
           final messageText = message['comment'];
           final messageSender = message['name'];
           final profileUrl = message['profile'];

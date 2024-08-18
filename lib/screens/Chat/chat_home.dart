@@ -1,45 +1,43 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nallagram/screens/Chat/calls_chat.dart';
-import 'package:nallagram/screens/Chat/chat_model.dart';
-import 'package:nallagram/screens/Chat/new_message_chat.dart';
-import 'package:nallagram/widgets/SearchBox.dart';
-// import 'group_chat.dart';
+import 'calls_chat.dart';
+import 'chat_model.dart';
+import 'new_message_chat.dart';
+
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
-User _loggedInUser;
+User? _loggedInUser = _auth.currentUser;
 List<String> docList = [];
 void docCheck() async {
   var result = await _firestore
       .collection('users')
-      .doc(_loggedInUser.uid)
+      .doc(_loggedInUser?.uid)
       .collection('messages')
       .get();
-  result.docs.forEach((res) {
+  for (var res in result.docs) {
     docList.add(res.id.toString());
-  });
+  }
 }
 
 class ChatHome extends StatefulWidget {
   static const String id = 'chat_home';
+
+  const ChatHome({Key? key}) : super(key: key);
+
   @override
   _ChatHomeState createState() => _ChatHomeState();
 }
 
 class _ChatHomeState extends State<ChatHome> {
-  //initialising firestore
-
-  String messageText;
-
   @override
   void initState() {
     super.initState();
-    // docCheck();
     getCurrentUser();
   }
 
@@ -48,10 +46,14 @@ class _ChatHomeState extends State<ChatHome> {
       final user = _auth.currentUser;
       if (user != null) {
         _loggedInUser = user;
-        print(_loggedInUser);
+        if (kDebugMode) {
+          print(_loggedInUser);
+        }
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -62,11 +64,11 @@ class _ChatHomeState extends State<ChatHome> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(CupertinoIcons.back),
+          icon: const Icon(CupertinoIcons.back),
           color: Colors.black,
         ),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Chats',
           style: TextStyle(
             color: Colors.black,
@@ -84,15 +86,13 @@ class _ChatHomeState extends State<ChatHome> {
                 ),
               );
             },
-            icon: Icon(
+            icon: const Icon(
               CupertinoIcons.video_camera,
               size: 40,
               color: Colors.black,
             ),
           ),
-          SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
           IconButton(
             onPressed: () {
               Navigator.push(
@@ -102,31 +102,67 @@ class _ChatHomeState extends State<ChatHome> {
                 ),
               );
             },
-            icon: Icon(
+            icon: const Icon(
               CupertinoIcons.paperplane,
               size: 28,
               color: Colors.black,
             ),
           ),
-          SizedBox(
-            width: 10,
-          ),
+          const SizedBox(width: 10),
         ],
         backgroundColor: Colors.white,
       ),
-      body: SafeArea(
-        // child: Column(
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //   crossAxisAlignment: CrossAxisAlignment.stretch,
-        //   children: <Widget>[
-        //     Padding(
-        //       padding: const EdgeInsets.symmetric(vertical: 16.0),
-        //       child: SearchBox(),
-        //     ),
+      body: const SafeArea(
         child: UsersStream(),
-        //   ],
-        // ),
       ),
+    );
+  }
+}
+
+class UsersStream extends StatelessWidget {
+  const UsersStream({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firestore.collection('users').snapshots(),
+      builder: (context, snapshot) {
+        List<UserBubble> userBubbles = [];
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.lightBlue,
+            ),
+          );
+        }
+        final users = snapshot.data?.docs;
+
+        for (var user in users!) {
+          final data = user.data() as Map<String, dynamic>?;
+
+          if (data != null) {
+            final profile = data['profile'] ?? '';
+            final name = data['name'] ?? '';
+            final selectedUid = data['userid'] ?? '';
+            final currentUser = _loggedInUser?.displayName ?? '';
+
+            final userBubble = UserBubble(
+              profileUrl: profile,
+              selectedUser: selectedUid,
+              name: name,
+              isMe: currentUser == name,
+              message: '',
+              time: '',
+            );
+            userBubbles.add(userBubble);
+          }
+        }
+        return Expanded(
+          child: ListView(
+            children: userBubbles,
+          ),
+        );
+      },
     );
   }
 }
@@ -138,13 +174,13 @@ class UserBubble extends StatefulWidget {
   final String message;
   final String selectedUser;
   final bool isMe;
-  UserBubble(
-      {@required this.profileUrl,
-      @required this.name,
-      @required this.message,
-      @required this.time,
-      @required this.isMe,
-      @required this.selectedUser});
+  const UserBubble(
+      {Key? key, required this.profileUrl,
+      required this.name,
+      required this.message,
+      required this.time,
+      required this.isMe,
+      required this.selectedUser}) : super(key: key);
 
   @override
   State<UserBubble> createState() => _UserBubbleState();
@@ -179,45 +215,43 @@ class _UserBubbleState extends State<UserBubble> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.blueGrey,
-                          radius: 32,
-                          backgroundImage:
-                              CachedNetworkImageProvider(widget.profileUrl),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0, left: 20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.name == null ? '' : widget.name,
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.blueGrey,
+                        radius: 32,
+                        backgroundImage:
+                            CachedNetworkImageProvider(widget.profileUrl),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0, left: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.name,
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Metropolis'),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 5.0),
+                              child: Text(
+                                'Tap to start messaging..',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Metropolis'),
+                                    fontSize: 10, fontFamily: 'Metropolis'),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Text(
-                                  'Tap to start messaging..',
-                                  style: TextStyle(
-                                      fontSize: 10, fontFamily: 'Metropolis'),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: FaIcon(FontAwesomeIcons.comment),
                 ),
               ],
@@ -231,44 +265,7 @@ class _UserBubbleState extends State<UserBubble> {
   }
 }
 
-class UsersStream extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('users').snapshots(),
-      builder: (context, snapshot) {
-        List<UserBubble> userBubbles = [];
-        if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.lightBlue,
-            ),
-          );
-        }
-        final users = snapshot.data.docs;
 
-        for (var user in users) {
-          final profile = user['profile'];
-          final name = user['name'];
-          final selectedUid = user['userid'];
-          final currentUser = _loggedInUser.displayName;
-          final userBubble = UserBubble(
-            profileUrl: profile,
-            selectedUser: selectedUid,
-            name: name,
-            isMe: currentUser == name,
-          );
-          userBubbles.add(userBubble);
-        }
-        return Expanded(
-          child: ListView(
-            children: userBubbles,
-          ),
-        );
-      },
-    );
-  }
-}
 
 // class SendersStream extends StatelessWidget {
 //   final List docNames;

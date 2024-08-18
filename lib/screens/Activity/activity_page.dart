@@ -37,8 +37,8 @@ class Activity extends StatelessWidget {
           },
         ),
         onTap: () {
-          Toast.show("Following list updated!", context,
-              duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+          Toast.show("Following list updated!", textStyle: context,
+              duration: Toast.lengthShort, gravity: Toast.bottom);
         },
       );
     }

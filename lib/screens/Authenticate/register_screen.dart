@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:math';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Register extends StatefulWidget {
@@ -15,11 +15,11 @@ class _RegisterState extends State<Register> {
   @override
   final _auth = FirebaseAuth.instance;
   final _store = FirebaseFirestore.instance;
-  User user; //never gonna change
+  late User user; //never gonna change
   //instance
-  String email;
-  String password;
-  String name;
+  late String email;
+  late String password;
+  late String name;
   List<String> profiles = [
     'https://cdn.dribbble.com/users/86682/screenshots/10441196/penguin.png',
     'https://cdn.dribbble.com/users/1162077/screenshots/7475318/media/8837a0ae1265548e27a2b2bb3ab1f366.png',
@@ -158,11 +158,11 @@ class _RegisterState extends State<Register> {
                         final newUser =
                             await _auth.createUserWithEmailAndPassword(
                                 email: email, password: password);
-                        User user = newUser.user;
-                        user.updateDisplayName(name);
+                        User? user = newUser.user;
+                        user?.updateDisplayName(name);
                         var pfp = photoUrl(profiles);
-                        user.updatePhotoURL(pfp);
-                        _store.collection('users').doc(user.uid).set({
+                        user?.updatePhotoURL(pfp);
+                        _store.collection('users').doc(user?.uid).set({
                           'name': name,
                           'profile': pfp,
                           'followerlist': [""],
@@ -170,7 +170,7 @@ class _RegisterState extends State<Register> {
                           'descr':
                               'Tap edit profile to update profile photo and description',
                           'followers': 0,
-                          'userid': user.uid,
+                          'userid': user?.uid,
                           'following': 0,
                           'posts': 0
                         });

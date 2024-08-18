@@ -14,10 +14,10 @@ final store = FirebaseFirestore.instance;
 final auth = FirebaseAuth.instance;
 var rimage;
 var imagePicker;
-User user;
+late User user;
 
 void uploadProfile(String url) async {
-  user = auth.currentUser;
+  user = auth.currentUser!;
   user.updatePhotoURL(url);
 }
 

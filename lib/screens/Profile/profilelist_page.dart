@@ -3,13 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:nallagram/screens/Profile/user_profile.dart';
+import 'package:unipp/screens/Profile/user_profile.dart';
 
-import '../../nav.dart';
+
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
-final currentUsermail = loggedInUser.email;
+
+final currentUsermail = _auth.currentUser?.email;
 
 class ProfileList extends StatelessWidget {
   @override
@@ -42,14 +43,14 @@ class UserBubble extends StatefulWidget {
   final String selectedUser;
   final bool isMe;
   UserBubble(
-      {@required this.profileUrl,
-      @required this.descr,
-      @required this.posts,
-      @required this.followers,
-      @required this.following,
-      @required this.name,
-      @required this.isMe,
-      @required this.selectedUser});
+      {required this.profileUrl,
+      required this.descr,
+      required this.posts,
+      required this.followers,
+      required this.following,
+      required this.name,
+      required this.isMe,
+      required this.selectedUser});
 
   @override
   State<UserBubble> createState() => _UserBubbleState();
@@ -157,9 +158,9 @@ class UsersStream extends StatelessWidget {
             ),
           );
         }
-        final users = snapshot.data.docs;
+        final users = snapshot.data?.docs;
 
-        for (var user in users) {
+        for (var user in users!) {
           final profile = user['profile'];
           final name = user['name'];
           final followers = user['followers'];
@@ -167,7 +168,7 @@ class UsersStream extends StatelessWidget {
           final descr = user['descr'];
           final posts = user['posts'];
           final selectedUid = user['userid'];
-          final currentUser = loggedInUser.displayName;
+          final currentUser = _auth.currentUser?.displayName;
           final userBubble = UserBubble(
             descr: descr,
             followers: followers,

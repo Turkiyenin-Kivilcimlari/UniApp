@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nallagram/screens/Profile/profilelist_page.dart';
+
+import '../screens/Profile/profilelist_page.dart';
 
 class SearchBox extends StatelessWidget {
   const SearchBox({
-    Key key,
+    required Key key,
   }) : super(key: key);
 
   @override

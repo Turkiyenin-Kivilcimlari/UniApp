@@ -12,7 +12,6 @@ import 'root.dart';
 import 'screens/Chat/chat_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-final _auth = FirebaseAuth.instance;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
             create: (_) => AuthenticationProvider(FirebaseAuth.instance)),
         StreamProvider(
             create: (context) =>
-                context.read<AuthenticationProvider>().authStateChanges)
+                context.read<AuthenticationProvider>().authStateChanges, initialData: null,)
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -56,7 +55,7 @@ class Authenticate extends StatelessWidget {
   static const id = 'auth';
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
+    final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
       return Nav();

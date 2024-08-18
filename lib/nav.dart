@@ -30,7 +30,6 @@ class _NavState extends State<Nav> {
     // getProfileData();
   }
 
-  @override
   int _selectedIndex = 0;
   void _onItemTap(int index) {
     setState(() {
@@ -38,7 +37,7 @@ class _NavState extends State<Nav> {
     });
   }
 
-  List<Widget> _widgetOptions = [
+  final List<Widget> _widgetOptions = [
     Home(),
     Explore(),
     Create(),
@@ -49,7 +48,7 @@ class _NavState extends State<Nav> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.white,
       //color set to transperent or set your own color
       statusBarIconBrightness: Brightness.dark,
@@ -60,7 +59,7 @@ class _NavState extends State<Nav> {
         automaticallyImplyLeading: false,
         elevation: 0.0,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Nallagram',
           style: TextStyle(
             fontFamily: 'Metropolis',
@@ -78,7 +77,7 @@ class _NavState extends State<Nav> {
             },
             child: Container(
               padding: EdgeInsets.all(2),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
                   colors: [Colors.pink, Colors.redAccent, Colors.orange],
@@ -90,7 +89,7 @@ class _NavState extends State<Nav> {
             ),
           ),
           IconButton(
-            icon: FaIcon(
+            icon: const FaIcon(
               FontAwesomeIcons.paperPlane,
               color: Colors.black,
             ),
@@ -106,7 +105,7 @@ class _NavState extends State<Nav> {
         buttonBackgroundColor: Colors.redAccent.shade100,
         height: 50.0,
         color: Colors.white,
-        items: <Widget>[
+        items: const <Widget>[
           Icon(
             Icons.home,
             color: Colors.black,

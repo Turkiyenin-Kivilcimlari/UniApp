@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nallagram/models/blog_shrink_model.dart';
-import 'package:nallagram/widgets/blog_element.dart';
-import 'package:nallagram/widgets/ctag.dart';
-import 'package:nallagram/widgets/featured_blog.dart';
+import '../../models/blog_shrink_model.dart';
+import '../../widgets/blog_element.dart';
+import '../../widgets/ctag.dart';
+import '../../widgets/featured_blog.dart';
 
 class BlogHome extends StatelessWidget {
   @override
@@ -123,31 +123,31 @@ class BlogHome extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: tagBuild("Coding", Colors.pink, context)),
+                            child: tagBuild("Coding", Colors.pink)),
                         Expanded(
-                            child: tagBuild("Travel", Colors.blue, context)),
+                            child: tagBuild("Travel", Colors.blue)),
                         Expanded(
-                            child: tagBuild("Flutter", Colors.orange, context))
+                            child: tagBuild("Flutter", Colors.orange))
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: tagBuild("Design", Colors.green, context)),
-                        Expanded(child: tagBuild("Art", Colors.cyan, context)),
-                        Expanded(child: tagBuild("React", Colors.red, context))
+                            child: tagBuild("Design", Colors.green)),
+                        Expanded(child: tagBuild("Art", Colors.cyan)),
+                        Expanded(child: tagBuild("React", Colors.red))
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: tagBuild("Tech", Colors.purple, context)),
+                            child: tagBuild("Tech", Colors.purple)),
                         Expanded(
                             child:
-                                tagBuild("Linux", Colors.deepOrange, context)),
+                                tagBuild("Linux", Colors.deepOrange)),
                         Expanded(
                             child: tagBuild(
-                                "More", Colors.deepPurpleAccent, context))
+                                "More", Colors.deepPurpleAccent))
                       ],
                     ),
                   ],

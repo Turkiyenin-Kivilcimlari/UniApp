@@ -12,10 +12,10 @@ final storage = FirebaseStorage.instance;
 final store = FirebaseFirestore.instance;
 final auth = FirebaseAuth.instance;
 
-User user;
+late User user;
 
 void publishPosts(String place, String posturl) async {
-  user = auth.currentUser;
+  user = auth.currentUser!;
 
   await store.collection('posts').add({
     'likes': 0,
@@ -54,7 +54,7 @@ void ImageHandler(File image) async {
 }
 
 class Create extends StatelessWidget {
-  final ImagePicker _picker = ImagePicker();
+  Create({Key? key}) : super(key: key);
   void _handleURLButtonPress(BuildContext context, var type) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => ImageFromGalleryEx(type)));
@@ -162,14 +162,8 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
                   source: source,
                 );
                 setState(() {
-                  if (image.path != null) {
-                    _image = File(image.path);
-                  } else if (image.path == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text("Sending Message"),
-                    ));
-                  }
-                });
+                  _image = File(image.path);
+                                });
               },
               child: Container(
                 width: 200,

@@ -3,24 +3,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nallagram/screens/Profile/edit_profile.dart';
-import 'package:nallagram/screens/Posts/postView_model.dart';
-import 'package:nallagram/screens/Story/storyview.dart';
-import 'package:nallagram/screens/settings/settings.dart';
-
-
+import '../../nav.dart';
+import '../Posts/postView_model.dart';
+import '../Story/storyview.dart';
+import '../settings/settings.dart';
+import 'edit_profile.dart';
 import 'profile_upload.dart';
 final _auth = FirebaseAuth.instance;
 final _store = FirebaseFirestore.instance;
 bool _persposts = true;
+late User? loggedInUser = auth.currentUser;
 
 void getProfileData() async {
-  final info = await _store.collection('users').doc(loggedInUser.uid).get();
-  Map data = info.data();
-  followers = data['followers'];
-  following = data['following'];
-  descr = data['descr'];
-  posts = data['posts'];
+  final info = await _store.collection('users').doc(loggedInUser?.uid!).get();
+  Map<String, dynamic>? data = info.data();
+  followers = data?['followers'];
+  following = data?['following'];
+  descr = data?['descr'];
+  posts = data?['posts'];
 }
 
 void getCurrentUser() {
@@ -34,10 +34,10 @@ void getCurrentUser() {
   }
 }
 
-int posts;
+late int posts;
 var descr;
-int followers;
-int following;
+late int followers;
+late int following;
 
 class Profile extends StatefulWidget {
   @override
@@ -75,7 +75,7 @@ class _ProfileState extends State<Profile> {
                             borderRadius: BorderRadius.circular(25),
                             image: DecorationImage(
                               image: CachedNetworkImageProvider(
-                                  loggedInUser.photoURL),
+                                  loggedInUser!.photoURL!),
                               fit: BoxFit.cover,
                             )),
                     child: rimage != null
@@ -162,7 +162,7 @@ class _ProfileState extends State<Profile> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              loggedInUser.displayName.toUpperCase(),
+              loggedInUser!.displayName!.toUpperCase(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Metropolis',
@@ -248,7 +248,7 @@ class Highlights extends StatefulWidget {
   final String name;
   final String url;
 
-  Highlights({@required this.name, @required this.url});
+  Highlights({required this.name, required this.url});
 
   @override
   _HighlightsState createState() => _HighlightsState();
@@ -362,26 +362,32 @@ class _ProfilePostsState extends State<ProfilePosts> {
 class ImagePost extends StatelessWidget {
   final String url;
   final bool isMe = true;
-  ImagePost({@required this.url});
+  ImagePost({required this.url});
   @override
   Widget build(BuildContext context) {
     if (isMe) {
       return GestureDetector(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => POstView(url)));
+            context,
+            MaterialPageRoute(builder: (context) => POstView(url)),
+          );
         },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(32),
             color: Colors.red.shade100,
             image: DecorationImage(
-                image: CachedNetworkImageProvider(url), fit: BoxFit.cover),
+              image: CachedNetworkImageProvider(url),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       );
+    } else {
+      // Return a default widget or another widget based on your needs
+      return Container(); // Example of a default widget
     }
-  
   }
 }
 
@@ -391,7 +397,7 @@ class ProfilePostsStream extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: _store
           .collection('users')
-          .doc(loggedInUser.uid)
+          .doc(loggedInUser?.uid)
           .collection('posts')
           .snapshots(),
       builder: (context, snapshot) {
@@ -403,10 +409,10 @@ class ProfilePostsStream extends StatelessWidget {
             ),
           );
         }
-        final posts = snapshot.data.docs.reversed;
+        final posts = snapshot.data?.docs.reversed;
 
-        for (var post in posts) {
-          if (post['userid'] == loggedInUser.uid) {
+        for (var post in posts!) {
+          if (post['userid'] == loggedInUser?.uid) {
             final image = post['url'];
             final imagePost = ImagePost(
               url: image,
@@ -447,7 +453,7 @@ class Highlight extends StatefulWidget {
   final String name;
   final String url;
 
-  Highlight({this.name, this.url});
+  Highlight({required this.name, required this.url});
 
   @override
   _HighlightState createState() => _HighlightState();
@@ -466,7 +472,7 @@ class _HighlightState extends State<Highlight> {
           GestureDetector(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => StoryPageView()));
+                  MaterialPageRoute(builder: (context) => StoryPageView(key: Key('a'),)));
             },
             child: Container(
               width: 60,

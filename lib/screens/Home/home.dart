@@ -1,19 +1,8 @@
-import 'dart:ui';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nallagram/models/story_view_model.dart';
-// import 'package:nallagram/screens/create_page.dart';
-// import 'package:nallagram/nav.dart';
-// import 'package:nallagram/screens/profile.dart';
-import 'package:like_button/like_button.dart';
-import 'package:nallagram/widgets/story_widget.dart';
+import '../../models/story_view_model.dart';
 import '../../widgets/post_card.dart';
-import '../Comments/commentspage.dart';
+import '../../widgets/story_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import '../data.dart';
-
 final _firestore = FirebaseFirestore.instance;
 
 List<String> likedusers = [];
@@ -47,43 +36,43 @@ class _HomeState extends State<Home> {
                       spacing(),
                       StoryWid(
                           img: StoryViewData[0].img,
-                          name: StoryViewData[0].name),
+                          name: StoryViewData[0].name, key:Key('0')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[1].img,
-                          name: StoryViewData[1].name),
+                          name: StoryViewData[1].name, key:Key('1')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[2].img,
-                          name: StoryViewData[2].name),
+                          name: StoryViewData[2].name, key:Key('2')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[3].img,
-                          name: StoryViewData[3].name),
+                          name: StoryViewData[3].name, key:Key('3')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[4].img,
-                          name: StoryViewData[4].name),
+                          name: StoryViewData[4].name, key:Key('4')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[5].img,
-                          name: StoryViewData[5].name),
+                          name: StoryViewData[5].name, key:Key('5')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[6].img,
-                          name: StoryViewData[6].name),
+                          name: StoryViewData[6].name, key:Key('6')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[7].img,
-                          name: StoryViewData[7].name),
+                          name: StoryViewData[7].name, key:Key('7')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[8].img,
-                          name: StoryViewData[8].name),
+                          name: StoryViewData[8].name, key:Key('8')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[9].img,
-                          name: StoryViewData[9].name),
+                          name: StoryViewData[9].name, key:Key('9')),
                       spacing(),
                     ],
                   ),
@@ -108,15 +97,6 @@ class PostStream extends StatelessWidget {
       stream: _firestore.collection('posts').orderBy('timestamp').snapshots(),
       builder: (context, snapshot) {
         List<PostCard> postCards = [];
-        Future Likecheck(postid) async {
-          var data = await _firestore
-              .collection('posts')
-              .doc(postid)
-              .collection('liked')
-              .get();
-          return snapshot.data;
-        }
-
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(
@@ -124,9 +104,9 @@ class PostStream extends StatelessWidget {
             ),
           );
         }
-        final posts = snapshot.data.docs;
+        final posts = snapshot.data?.docs;
 
-        for (var post in posts) {
+        for (var post in posts!) {
           // var likedusrs = await Likecheck(post.id);
           // var data = likedusrs.data();
           final likesCount = post['likes'];

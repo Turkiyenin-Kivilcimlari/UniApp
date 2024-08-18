@@ -3,17 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:nallagram/screens/Chat/calls_model.dart';
-import 'package:nallagram/screens/Chat/chat_model.dart';
+import "calls_model.dart";
+import 'chat_model.dart';
+
+
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
-User _loggedInUser;
+late User? _loggedInUser = _auth.currentUser;
 List<String> docList = [];
 void docCheck() async {
   var result = await _firestore
       .collection('users')
-      .doc(_loggedInUser.uid)
+      .doc(_loggedInUser?.uid)
       .collection('messages')
       .get();
   result.docs.forEach((res) {
@@ -30,7 +32,7 @@ class CallsChat extends StatefulWidget {
 class _CallsChatState extends State<CallsChat> {
   //initialising firestore
 
-  String messageText;
+  late String messageText;
 
   @override
   void initState() {
@@ -80,12 +82,12 @@ class _CallsChatState extends State<CallsChat> {
             CallsModel(
               icon: CupertinoIcons.phone,
               type: 'Audio',
-              typeDescription: 'Start with audio',
+              typeDescription: 'Start with audio', key: Key('Key'),
             ),
             CallsModel(
               icon: CupertinoIcons.video_camera,
               type: 'Video',
-              typeDescription: 'Hang out on video',
+              typeDescription: 'Hang out on video', key: Key('Key'),
             ),
             UsersStream(),
           ],
@@ -103,12 +105,12 @@ class UserBubble extends StatefulWidget {
   final String selectedUser;
   final bool isMe;
   UserBubble(
-      {@required this.profileUrl,
-      @required this.name,
-      @required this.message,
-      @required this.time,
-      @required this.isMe,
-      @required this.selectedUser});
+      {Key? key, required this.profileUrl,
+      required this.name,
+      required this.message,
+      required this.time,
+      required this.isMe,
+      required this.selectedUser}) : super(key: key);
 
   @override
   State<UserBubble> createState() => _UserBubbleState();
@@ -157,7 +159,7 @@ class _UserBubbleState extends State<UserBubble> {
                             bottom: 10,
                           ),
                           child: Text(
-                            widget.name == null ? '' : widget.name,
+                            widget.name,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black,
@@ -218,18 +220,18 @@ class UsersStream extends StatelessWidget {
             ),
           );
         }
-        final users = snapshot.data.docs;
+        final users = snapshot.data?.docs;
 
-        for (var user in users) {
+        for (var user in users!) {
           final profile = user['profile'];
           final name = user['name'];
           final selectedUid = user['userid'];
-          final currentUser = _loggedInUser.displayName;
+          final currentUser = _loggedInUser?.displayName;
           final userBubble = UserBubble(
             profileUrl: profile,
             selectedUser: selectedUid,
             name: name,
-            isMe: currentUser == name,
+            isMe: currentUser == name, message: '', time: '',
           );
           userBubbles.add(userBubble);
         }

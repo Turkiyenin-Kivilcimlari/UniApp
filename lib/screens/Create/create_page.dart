@@ -46,7 +46,7 @@ void ImageHandler(File image) async {
   var UploadTask =
       await storage.ref().child(basename(image.path)).putFile(image);
   if (UploadTask.state == TaskState.success) {
-    final String DownloadUrl = await UploadTask.ref.getDownloadURL();
+    final DownloadUrl = await UploadTask.ref.getDownloadURL();
 
     publishPosts('India', DownloadUrl);
     addUserposts('India', DownloadUrl);
@@ -67,51 +67,53 @@ class Create extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
           child: Container(
+            // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
+            decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Colors.pink, Colors.redAccent, Colors.orange],
+                  begin: Alignment.bottomRight,
+                  end: Alignment.topLeft,
+                ),
+                borderRadius: BorderRadius.circular(20.0)),
             // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
             child: TextButton(
                 onPressed: () {
                   _handleURLButtonPress(context, ImageSourceType.gallery);
                 },
-                child: Text(
+                child: const Text(
                   'Upload from Gallery',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Metropolis',
                       fontWeight: FontWeight.bold),
                 )),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+          child: Container(
+            // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.pink, Colors.redAccent, Colors.orange],
+                gradient: const LinearGradient(
+                  colors: [Colors.purple, Colors.deepPurple, Colors.blueAccent],
                   begin: Alignment.bottomRight,
                   end: Alignment.topLeft,
                 ),
                 borderRadius: BorderRadius.circular(20.0)),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
-          child: Container(
             // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
             child: TextButton(
                 onPressed: () {
                   _handleURLButtonPress(context, ImageSourceType.camera);
                 },
-                child: Text(
+                child: const Text(
                   'Open Camera',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Metropolis',
                       fontWeight: FontWeight.bold),
                 )),
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.purple, Colors.deepPurple, Colors.blueAccent],
-                  begin: Alignment.bottomRight,
-                  end: Alignment.topLeft,
-                ),
-                borderRadius: BorderRadius.circular(20.0)),
           ),
         ),
       ],
@@ -121,7 +123,7 @@ class Create extends StatelessWidget {
 
 class ImageFromGalleryEx extends StatefulWidget {
   final type;
-  ImageFromGalleryEx(this.type);
+  const ImageFromGalleryEx(this.type, {Key? key}) : super(key: key);
 
   @override
   ImageFromGalleryExState createState() => ImageFromGalleryExState(this.type);
@@ -158,12 +160,14 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
                 var source = type == ImageSourceType.camera
                     ? ImageSource.camera
                     : ImageSource.gallery;
-                XFile image = await imagePicker.pickImage(
+                XFile? image = await imagePicker.pickImage(
                   source: source,
                 );
                 setState(() {
-                  _image = File(image.path);
-                                });
+                  if(image != null) {
+                    _image = File(image.path);
+                  }
+                });
               },
               child: Container(
                 width: 200,
@@ -185,7 +189,7 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
                         ),
                         width: 200,
                         height: 200,
-                        child: Icon(
+                        child: const Icon(
                           Icons.camera_alt,
                           color: Colors.black,
                         ),
@@ -197,10 +201,12 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
             padding: const EdgeInsets.only(top: 46.0),
             child: ElevatedButton(
                 onPressed: () {
-                  ImageHandler(_image);
-                  Navigator.pushNamed(context, Nav.id);
+                  if(_image!=null){
+                    ImageHandler(_image);
+                    Navigator.pushNamed(context, Nav.id);
+                  }
                 },
-                child: Text('Done')),
+                child: const Text('Done')),
           )
         ],
       ),

@@ -14,7 +14,7 @@ class Activity extends StatelessWidget {
         ),
         title: Text(
           name,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Metropolis',
             fontWeight: FontWeight.bold,
             fontSize: 15.0,
@@ -22,23 +22,26 @@ class Activity extends StatelessWidget {
         ),
         subtitle: Text(
           place,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Metropolis',
             fontSize: 12.0,
           ),
         ),
         trailing: IconButton(
-          icon: FaIcon(
+          icon: const FaIcon(
             FontAwesomeIcons.userPlus,
             color: Colors.blueAccent,
             size: 19.0,
-          ), onPressed: () {  
+          ),
+          onPressed: () {
             ////
           },
         ),
         onTap: () {
-          Toast.show("Following list updated!", textStyle: context,
-              duration: Toast.lengthShort, gravity: Toast.bottom);
+          Toast.show("Following list updated!",
+              textStyle: context,
+              duration: Toast.lengthShort,
+              gravity: Toast.bottom);
         },
       );
     }
@@ -50,50 +53,16 @@ class Activity extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Card(
-                margin: EdgeInsets.fromLTRB(10.0, 20.0, 3.0, 20.0),
+                margin: const EdgeInsets.fromLTRB(10.0, 20.0, 3.0, 20.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 elevation: 30.0,
                 shadowColor: Colors.pink,
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(15.0, 20.0, 50.0, 15.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 20.0, 50.0, 15.0),
                   height: 101.0,
                   width: 169.0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'New Followers',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Metropolis',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        'Last 7 days',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Metropolis',
-                            fontSize: 10.0),
-                      ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
-                      Text(
-                        '265',
-                        style: TextStyle(
-                            fontFamily: 'Metropolis',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            color: Colors.white),
-                      )
-                    ],
-                  ),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [Colors.pink, Colors.redAccent, Colors.orange],
@@ -101,6 +70,42 @@ class Activity extends StatelessWidget {
                         end: Alignment.topLeft,
                       ),
                       borderRadius: BorderRadius.circular(20.0)),
+                  child: ListView(children: const <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'New Followers',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Metropolis',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          'Last 7 days',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Metropolis',
+                              fontSize: 10.0),
+                        ),
+                        SizedBox(
+                          height:5.0,
+                        ),
+                        Text(
+                          '265',
+                          style: TextStyle(
+                              fontFamily: 'Metropolis',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ]),
                 ),
               ),
             ),
@@ -118,40 +123,42 @@ class Activity extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
                   height: 101.0,
                   width: 162.0,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Unfollowed',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Metropolis',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        'Last 7 days',
-                        style: TextStyle(
+                  child: ListView(children: const <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Unfollowed',
+                          style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Metropolis',
-                            fontSize: 10.0),
-                      ),
-                      SizedBox(
-                        height: 15.0,
-                      ),
-                      Text(
-                        '82',
-                        style: TextStyle(
-                            fontFamily: 'Metropolis',
                             fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            color: Colors.white),
-                      )
-                    ],
-                  ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          'Last 7 days',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Metropolis',
+                              fontSize: 10.0),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Text(
+                          '82',
+                          style: TextStyle(
+                              fontFamily: 'Metropolis',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Colors.white),
+                        )
+                      ],
+                    ),
+                  ]),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [

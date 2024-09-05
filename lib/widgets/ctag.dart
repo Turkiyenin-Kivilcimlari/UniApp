@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 
-Widget tagBuild(String tag, Color color) {
+
+Widget tagBuild(String tag, Color color, BuildContext context) {
+
   return GestureDetector(
     onTap: () {
-      Toast.show("This feature will be available soon!",
-          duration: Toast.lengthShort, gravity: Toast.bottom);
+      final snackBar = SnackBar(
+        content: tagBuild('Bu İçeriğe Ulaşılamıyor', Colors.red, context),
+        duration: Duration(milliseconds: 550),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     },
     child: Card(
       margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 5.0),
@@ -26,4 +30,5 @@ Widget tagBuild(String tag, Color color) {
       ),
     ),
   );
+
 }

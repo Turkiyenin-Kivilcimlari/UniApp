@@ -123,31 +123,31 @@ class BlogHome extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: tagBuild("Coding", Colors.pink)),
+                            child: tagBuild("Coding", Colors.pink,context)),
                         Expanded(
-                            child: tagBuild("Travel", Colors.blue)),
+                            child: tagBuild("Travel", Colors.blue,context)),
                         Expanded(
-                            child: tagBuild("Flutter", Colors.orange))
+                            child: tagBuild("Flutter", Colors.orange,context))
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: tagBuild("Design", Colors.green)),
-                        Expanded(child: tagBuild("Art", Colors.cyan)),
-                        Expanded(child: tagBuild("React", Colors.red))
+                            child: tagBuild("Design", Colors.green,context)),
+                        Expanded(child: tagBuild("Art", Colors.cyan,context)),
+                        Expanded(child: tagBuild("React", Colors.red,context))
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: tagBuild("Tech", Colors.purple)),
+                            child: tagBuild("Tech", Colors.purple,context)),
                         Expanded(
                             child:
-                                tagBuild("Linux", Colors.deepOrange)),
+                                tagBuild("Linux", Colors.deepOrange,context)),
                         Expanded(
                             child: tagBuild(
-                                "More", Colors.deepPurpleAccent))
+                                "More", Colors.deepPurpleAccent,context))
                       ],
                     ),
                   ],

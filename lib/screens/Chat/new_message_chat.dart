@@ -3,28 +3,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../widgets/SearchBox.dart';
 import 'chat_model.dart';
 
-
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
-late User? _loggedInUser = _auth.currentUser;
+User? _loggedInUser = _auth.currentUser;
 List<String> docList = [];
+
 void docCheck() async {
   var result = await _firestore
       .collection('users')
       .doc(_loggedInUser?.uid)
       .collection('messages')
       .get();
-  result.docs.forEach((res) {
+  for (var res in result.docs) {
     docList.add(res.id.toString());
-  });
+  }
 }
 
 class NewMessageChat extends StatefulWidget {
   static const String id = 'new_message_chat';
+
+  const NewMessageChat({Key? key}) : super(key: key);
+
   @override
   _NewMessageChatState createState() => _NewMessageChatState();
 }
@@ -79,8 +83,8 @@ class _NewMessageChatState extends State<NewMessageChat> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(
+            const Padding(
+              padding: EdgeInsets.symmetric(
                 horizontal: 20,
               ),
               child: Text(
@@ -92,15 +96,26 @@ class _NewMessageChatState extends State<NewMessageChat> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: SearchBox(key: Key('a'),),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
+              child: SearchBox(
+                key: Key('a'),
+              ),
             ),
             UsersStream(),
           ],
         ),
       ),
     );
+  }
+}
+
+Future<bool> validateImageUrl(String url) async {
+  try {
+    final Uri uri = Uri.parse(url);
+    return await canLaunchUrl(uri);
+  } catch (e) {
+    return false;
   }
 }
 
@@ -111,19 +126,38 @@ class UserBubble extends StatefulWidget {
   final String message;
   final String selectedUser;
   final bool isMe;
-  UserBubble(
-      {required this.profileUrl,
+
+  const UserBubble(
+      {Key? key,
+      required this.profileUrl,
       required this.name,
       required this.message,
       required this.time,
       required this.isMe,
-      required this.selectedUser});
+      required this.selectedUser})
+      : super(key: key);
 
   @override
   State<UserBubble> createState() => _UserBubbleState();
 }
 
 class _UserBubbleState extends State<UserBubble> {
+  bool _isValidUrl = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkImageUrl();
+  }
+
+  void _checkImageUrl() async {
+    bool isValid = await validateImageUrl(widget.profileUrl);
+    setState(() {
+      _isValidUrl = isValid;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!widget.isMe) {
@@ -152,33 +186,38 @@ class _UserBubbleState extends State<UserBubble> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.blueGrey,
-                          radius: 32,
-                          backgroundImage:
-                              CachedNetworkImageProvider(widget.profileUrl),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.blueGrey,
+                        radius: 32,
+                        backgroundImage: _isValidUrl
+                            ? CachedNetworkImageProvider(widget.profileUrl)
+                            : const AssetImage('assets/images/default_avatar.png')
+                        as ImageProvider,
+                        // Yedek resim
+                        child: _isValidUrl
+                            ? null
+                            : const Icon(Icons.person,
+                            size: 32, color: Colors.white), // Yedek ikon
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0, left: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.name != null ? '' : widget.name,
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Metropolis'),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0, left: 20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.name == null ? '' : widget.name,
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Metropolis'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -200,7 +239,7 @@ class UsersStream extends StatelessWidget {
       builder: (context, snapshot) {
         List<UserBubble> userBubbles = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),
@@ -209,15 +248,17 @@ class UsersStream extends StatelessWidget {
         final users = snapshot.data?.docs;
 
         for (var user in users!) {
-          final profile = user['profile'];
-          final name = user['name'];
-          final selectedUid = user['userid'];
+          final profile = user.data().toString().contains('profile') ? user['profile'] : '';
+          final name =  user.data().toString().contains('name') ? user['name'] : '';
+          final selectedUid = user.data().toString().contains('userid') ? user['userid'] : '';
           final currentUser = _loggedInUser?.displayName;
           final userBubble = UserBubble(
             profileUrl: profile,
             selectedUser: selectedUid,
             name: name,
-            isMe: currentUser == name, message: '', time: '',
+            isMe: currentUser == name,
+            message: '',
+            time: '',
           );
           userBubbles.add(userBubble);
         }

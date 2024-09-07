@@ -18,9 +18,9 @@ void docCheck() async {
       .doc(_loggedInUser?.uid)
       .collection('messages')
       .get();
-  result.docs.forEach((res) {
+  for (var res in result.docs) {
     docList.add(res.id.toString());
-  });
+  }
 }
 
 class CallsChat extends StatefulWidget {
@@ -64,7 +64,7 @@ class _CallsChatState extends State<CallsChat> {
           color: Colors.black,
         ),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Calls',
           style: TextStyle(
             color: Colors.black,
@@ -79,12 +79,12 @@ class _CallsChatState extends State<CallsChat> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            CallsModel(
+            const CallsModel(
               icon: CupertinoIcons.phone,
               type: 'Audio',
               typeDescription: 'Start with audio', key: Key('Key'),
             ),
-            CallsModel(
+            const CallsModel(
               icon: CupertinoIcons.video_camera,
               type: 'Video',
               typeDescription: 'Hang out on video', key: Key('Key'),
@@ -104,7 +104,7 @@ class UserBubble extends StatefulWidget {
   final String message;
   final String selectedUser;
   final bool isMe;
-  UserBubble(
+  const UserBubble(
       {Key? key, required this.profileUrl,
       required this.name,
       required this.message,

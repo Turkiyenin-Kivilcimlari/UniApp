@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'calls_chat.dart';
 import 'chat_model.dart';
 import 'new_message_chat.dart';
@@ -167,6 +168,15 @@ class UsersStream extends StatelessWidget {
   }
 }
 
+Future<bool> validateImageUrl(String url) async {
+  try {
+    final Uri uri = Uri.parse(url);
+    return await canLaunchUrl(uri);
+  } catch (e) {
+    return false;
+  }
+}
+
 class UserBubble extends StatefulWidget {
   final String profileUrl;
   final String name;
@@ -187,6 +197,22 @@ class UserBubble extends StatefulWidget {
 }
 
 class _UserBubbleState extends State<UserBubble> {
+  bool _isValidUrl = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkImageUrl();
+  }
+
+  void _checkImageUrl() async {
+    bool isValid = await validateImageUrl(widget.profileUrl);
+    setState(() {
+      _isValidUrl = isValid;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!widget.isMe) {
@@ -220,8 +246,15 @@ class _UserBubbleState extends State<UserBubble> {
                       CircleAvatar(
                         backgroundColor: Colors.blueGrey,
                         radius: 32,
-                        backgroundImage:
-                            CachedNetworkImageProvider(widget.profileUrl),
+                        backgroundImage: _isValidUrl
+                            ? CachedNetworkImageProvider(widget.profileUrl)
+                            : AssetImage('assets/images/default_avatar.png')
+                        as ImageProvider,
+                        // Yedek resim
+                        child: _isValidUrl
+                            ? null
+                            : Icon(Icons.person,
+                            size: 32, color: Colors.white), // Yedek ikon
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0, left: 20.0),

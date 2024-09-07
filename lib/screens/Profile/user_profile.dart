@@ -7,7 +7,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // import 'package:nallagram/edit_profile.dart';
 
-import '../../nav.dart';
 import '../Chat/chat_model.dart';
 import '../Posts/postView_model.dart';
 import '../Story/storyview.dart';
@@ -127,8 +126,8 @@ class _UserProfileState extends State<UserProfile> {
                   )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
                 child: FaIcon(
                   FontAwesomeIcons.ellipsisV,
                   size: 10,

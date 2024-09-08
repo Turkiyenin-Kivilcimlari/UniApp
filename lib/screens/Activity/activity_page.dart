@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:toast/toast.dart';
+
+import '../../widgets/ctag.dart';
 
 class Activity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ListTile _followList(int num, String name, String place) {
+    ListTile _followList(String name, String place) {
       return ListTile(
         leading: CircleAvatar(
-          backgroundImage: AssetImage('images/usr$num.jfif'),
+          child: Icon(Icons.person),
           radius: 28.0,
         ),
         title: Text(
@@ -38,10 +39,11 @@ class Activity extends StatelessWidget {
           },
         ),
         onTap: () {
-          Toast.show("Following list updated!",
-              textStyle: context,
-              duration: Toast.lengthShort,
-              gravity: Toast.bottom);
+          final snackBar = SnackBar(
+            content: tagBuild('Böyle bir kullanıcı bulunamadı.', Colors.blue, context),
+            duration: Duration(milliseconds: 550),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
       );
     }
@@ -175,25 +177,25 @@ class Activity extends StatelessWidget {
             ),
           ],
         ),
-        _followList(Random().nextInt(10) + 1, 'Harris', 'Enathu'),
-        _followList(Random().nextInt(10) + 1, 'Rahul', 'India'),
-        _followList(Random().nextInt(10) + 1, 'Mani', 'Los Angeles'),
-        _followList(Random().nextInt(10) + 1, 'Rajpal', 'Newzealand'),
-        _followList(Random().nextInt(10) + 1, 'Kim jung', 'Trivandrum'),
-        _followList(Random().nextInt(10) + 1, 'Gregory', 'Adoor'),
-        _followList(Random().nextInt(10) + 1, 'Rahul', 'New York'),
-        _followList(Random().nextInt(10) + 1, 'Devis', 'Kerala'),
-        _followList(Random().nextInt(10) + 1, 'Ram', 'Jammu'),
-        _followList(Random().nextInt(10) + 1, 'Edwin', 'India'),
-        _followList(Random().nextInt(10) + 1, 'Aswathy', 'Kovalam'),
-        _followList(Random().nextInt(10) + 1, 'Pranav', 'Thiruvalla'),
-        _followList(Random().nextInt(10) + 1, 'Aswin', 'Pala'),
-        _followList(Random().nextInt(10) + 1, 'Devu', 'Chenganoor'),
-        _followList(Random().nextInt(10) + 1, 'Prakash', 'MAnnady'),
-        _followList(Random().nextInt(10) + 1, 'Athul', 'Korea'),
-        _followList(Random().nextInt(10) + 1, 'Rajiv', 'Washington'),
-        _followList(Random().nextInt(10) + 1, 'Mohanlal', 'AbuDhabi'),
-        _followList(Random().nextInt(10) + 1, 'Sethupathi', 'Heaven'),
+        _followList('Harris', 'Enathu'),
+        _followList('Rahul', 'India'),
+        _followList('Mani', 'Los Angeles'),
+        _followList('Rajpal', 'Newzealand'),
+        _followList('Kim jung', 'Trivandrum'),
+        _followList('Gregory', 'Adoor'),
+        _followList('Rahul', 'New York'),
+        _followList('Devis', 'Kerala'),
+        _followList('Ram', 'Jammu'),
+        _followList('Edwin', 'India'),
+        _followList('Aswathy', 'Kovalam'),
+        _followList('Pranav', 'Thiruvalla'),
+        _followList('Aswin', 'Pala'),
+        _followList('Devu', 'Chenganoor'),
+        _followList('Prakash', 'MAnnady'),
+        _followList('Athul', 'Korea'),
+        _followList('Rajiv', 'Washington'),
+        _followList('Mohanlal', 'AbuDhabi'),
+        _followList('Sethupathi', 'Heaven'),
       ],
     );
   }

@@ -10,7 +10,7 @@ import 'chat_model.dart';
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
-late User? _loggedInUser = _auth.currentUser;
+User? _loggedInUser = _auth.currentUser;
 List<String> docList = [];
 void docCheck() async {
   var result = await _firestore
@@ -25,6 +25,8 @@ void docCheck() async {
 
 class CallsChat extends StatefulWidget {
   static const String id = 'calls_chat';
+
+  const CallsChat({Key? key}) : super(key: key);
   @override
   _CallsChatState createState() => _CallsChatState();
 }
@@ -82,12 +84,12 @@ class _CallsChatState extends State<CallsChat> {
             const CallsModel(
               icon: CupertinoIcons.phone,
               type: 'Audio',
-              typeDescription: 'Start with audio', key: Key('Key'),
+              typeDescription: 'Start with audio'
             ),
             const CallsModel(
               icon: CupertinoIcons.video_camera,
               type: 'Video',
-              typeDescription: 'Hang out on video', key: Key('Key'),
+              typeDescription: 'Hang out on video'
             ),
             UsersStream(),
           ],
@@ -179,14 +181,14 @@ class _UserBubbleState extends State<UserBubble> {
                     children: [
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           CupertinoIcons.phone,
                           color: Colors.black,
                         ),
                       ),
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           CupertinoIcons.videocam,
                           color: Colors.black,
                           size: 30,
@@ -214,7 +216,7 @@ class UsersStream extends StatelessWidget {
       builder: (context, snapshot) {
         List<UserBubble> userBubbles = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),
@@ -223,10 +225,10 @@ class UsersStream extends StatelessWidget {
         final users = snapshot.data?.docs;
 
         for (var user in users!) {
-          final profile = user['profile'];
-          final name = user['name'];
-          final selectedUid = user['userid'];
-          final currentUser = _loggedInUser?.displayName;
+          final profile = user['profile'] ?? '';
+          final name = user['name'] ?? '';
+          final selectedUid = user['userid'] ?? '';
+          final currentUser = _loggedInUser?.displayName ?? '';
           final userBubble = UserBubble(
             profileUrl: profile,
             selectedUser: selectedUid,

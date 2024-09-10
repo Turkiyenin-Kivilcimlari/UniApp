@@ -146,19 +146,19 @@ class _CommentsPageState extends State<CommentsPage> {
   }
 }
 
-class MessageBubble extends StatefulWidget {
+class CommentBubble extends StatefulWidget {
   final String text;
   final String url;
   final String sender;
 
-  MessageBubble(
+  CommentBubble(
       {required this.text, required this.sender, required this.url});
 
   @override
-  State<MessageBubble> createState() => _MessageBubbleState();
+  State<CommentBubble> createState() => _CommentBubbleState();
 }
 
-class _MessageBubbleState extends State<MessageBubble> {
+class _CommentBubbleState extends State<CommentBubble> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -180,16 +180,16 @@ class _MessageBubbleState extends State<MessageBubble> {
                   children: [
                     Text(
                       widget.sender,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Metropolis'),
                     ),
                     Container(
-                      constraints: BoxConstraints(minWidth: 0, maxWidth: 200),
+                      constraints: const BoxConstraints(minWidth: 0, maxWidth: 200),
                       child: Text(
                         widget.text == null ? '' : widget.text,
-                        style: TextStyle(
+                        style: const TextStyle(
                           // fontSize: 16,
                           color: Colors.black,
                           fontFamily: 'Metropolis',
@@ -202,53 +202,51 @@ class _MessageBubbleState extends State<MessageBubble> {
               ],
             ),
           ),
-          Container(
-            child: Row(
-              children: [
-                Container(
+          Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(32)),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Reply',
+                    style: TextStyle(
+                      fontFamily: 'Metropolis',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    tapped = !tapped;
+                  });
+                },
+                child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.3),
+                      color: tapped == false
+                          ? Colors.grey.withOpacity(0.3)
+                          : Colors.red.withOpacity(0.6),
                       borderRadius: BorderRadius.circular(32)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Reply',
-                      style: TextStyle(
-                        fontFamily: 'Metropolis',
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: FaIcon(
+                      tapped == false
+                          ? FontAwesomeIcons.heart
+                          : FontAwesomeIcons.solidHeart,
+                      color: Colors.black,
+                      size: 15,
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      tapped = !tapped;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: tapped == false
-                            ? Colors.grey.withOpacity(0.3)
-                            : Colors.red.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(32)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FaIcon(
-                        tapped == false
-                            ? FontAwesomeIcons.heart
-                            : FontAwesomeIcons.solidHeart,
-                        color: Colors.black,
-                        size: 15,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
@@ -269,7 +267,7 @@ class MessageStream extends StatelessWidget {
           .collection('comments')
           .snapshots(),
       builder: (context, snapshot) {
-        List<MessageBubble> messageBubbles = [];
+        List<CommentBubble> messageBubbles = [];
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(
@@ -283,7 +281,7 @@ class MessageStream extends StatelessWidget {
           final messageText = message['comment'];
           final messageSender = message['name'];
           final profileUrl = message['profile'];
-          final messageBubble = MessageBubble(
+          final messageBubble = CommentBubble(
             url: profileUrl,
             text: messageText,
             // profile:profileUrl,

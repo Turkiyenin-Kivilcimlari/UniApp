@@ -54,7 +54,7 @@ class _CallsModelState extends State<CallsModel> {
                   padding: const EdgeInsets.only(top: 5.0),
                   child: Text(
                     widget.typeDescription,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontFamily: 'Metropolis',
                     ),

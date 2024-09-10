@@ -43,7 +43,7 @@ Future<bool> validateImageUrl(String url) async {
   }
 }
 
-class UserBubble extends StatefulWidget {
+class ProfileBubble extends StatefulWidget {
   final String profileUrl;
   final String name;
   final int posts;
@@ -53,7 +53,7 @@ class UserBubble extends StatefulWidget {
   final String selectedUser;
   final bool isMe;
 
-  const UserBubble(
+  const ProfileBubble(
       {Key? key,
       required this.profileUrl,
       required this.descr,
@@ -66,10 +66,10 @@ class UserBubble extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<UserBubble> createState() => _UserBubbleState();
+  State<ProfileBubble> createState() => _ProfileBubbleState();
 }
 
-class _UserBubbleState extends State<UserBubble> {
+class _ProfileBubbleState extends State<ProfileBubble> {
   bool _isValidUrl = false;
 
   @override
@@ -186,7 +186,7 @@ class UsersStream extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: _firestore.collection('users').snapshots(),
       builder: (context, snapshot) {
-        List<UserBubble> userBubbles = [];
+        List<ProfileBubble> userBubbles = [];
         if (!snapshot.hasData) {
           return const Center(
             child: CircularProgressIndicator(
@@ -214,7 +214,7 @@ class UsersStream extends StatelessWidget {
           final selectedUid =
               user.data().toString().contains('userid') ? user['userid'] : '';
           final currentUser = _auth.currentUser?.displayName;
-          final userBubble = UserBubble(
+          final userBubble = ProfileBubble(
             descr: descr,
             followers: followers,
             following: following,

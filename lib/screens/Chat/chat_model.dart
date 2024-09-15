@@ -8,6 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'message_bubble.dart';
+
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
@@ -286,118 +288,6 @@ class _PmScreenState extends State<PmScreen> {
   }
 }
 
-class MessageBubble extends StatelessWidget {
-  final String text;
-  final String sender;
-  final bool isMe;
-  MessageBubble(
-      {required this.text, required this.sender, required this.isMe});
-  @override
-  Widget build(BuildContext context) {
-    if (isMe) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(
-              constraints: BoxConstraints(minWidth: 0, maxWidth: 200),
-              decoration: isAllEmoji(text)
-                  ? BoxDecoration(color: Colors.transparent)
-                  : BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30.0),
-                          topLeft: Radius.circular(30.0),
-                          bottomRight: Radius.circular(30.0)),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.purple,
-                          Colors.deepPurple,
-                          Colors.blueAccent
-                        ],
-                        begin: Alignment.bottomRight,
-                        end: Alignment.topLeft,
-                      ),
-                    ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 20.0),
-                child: RichText(
-                  overflow: TextOverflow.clip,
-                  strutStyle: StrutStyle(fontSize: 12.0),
-                  text: TextSpan(
-                    style: isAllEmoji(text)
-                        ? TextStyle(
-                            fontSize: 25,
-                          )
-                        : TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.white,
-                            // fontWeight: FontWeight.w500,
-                            fontFamily: 'Metropolis'),
-                    text: text == null ? '' : text,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5.0),
-              child: Text(
-                sender,
-                style: TextStyle(color: Colors.black54, fontSize: 12),
-              ),
-            ),
-            Container(
-              constraints: BoxConstraints(minWidth: 0, maxWidth: 200),
-              // elevation: 5.0,
-              decoration: isAllEmoji(text)
-                  ? BoxDecoration(
-                      color: Colors.transparent,
-                    )
-                  : BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.pink, Colors.redAccent, Colors.orange],
-                        begin: Alignment.bottomRight,
-                        end: Alignment.topLeft,
-                      ),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0),
-                          bottomRight: Radius.circular(30.0)),
-                    ),
-
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 20.0),
-                child: Text(
-                  text == null ? '' : text,
-                  style: isAllEmoji(text)
-                      ? TextStyle(
-                          fontSize: 25,
-                        )
-                      : TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontFamily: 'Metropolis',
-                        ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-}
 
 class MessageStream extends StatelessWidget {
   final selectedUser;

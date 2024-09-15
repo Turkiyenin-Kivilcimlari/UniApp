@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nallagram/screens/Chat/chat_model.dart';
+
 // import 'package:nallagram/edit_profile.dart';
-import 'package:nallagram/screens/Posts/postView_model.dart';
-import 'package:nallagram/screens/Story/storyview.dart';
+
+import '../Chat/chat_model.dart';
+import '../Posts/postView_model.dart';
+import '../Story/storyview.dart';
 
 //Profile photo - squircle --> posts no | Followers no | Following no |
 //Name o <em>Position</em>
@@ -15,10 +17,11 @@ import 'package:nallagram/screens/Story/storyview.dart';
 final _auth = FirebaseAuth.instance;
 final _store = FirebaseFirestore.instance;
 List<dynamic> followinglist = [];
-int cufollowing;
+late int cufollowing;
 bool _persposts = true;
-int followers;
+late int followers;
 List<dynamic> followlist = [];
+late User? loggedInUser = _auth.currentUser;
 
 void getCurrentUser() {
   try {
@@ -35,12 +38,12 @@ void getCurrentUser() {
 void followData(userId) async {
   var userDat = await _store.collection('users').doc(userId).get();
   var currentDat =
-      await _store.collection('users').doc(loggedInUser.uid.toString()).get();
+      await _store.collection('users').doc(loggedInUser?.uid.toString()).get();
   followinglist = currentDat['followinglist'];
   cufollowing = currentDat['following'];
   var data = userDat.data();
-  followlist = data['followerlist'];
-  followers = data['followers'];
+  followlist = data?['followerlist'];
+  followers = data?['followers'];
 }
 
 // User loggedInUser;
@@ -66,8 +69,8 @@ class UserProfile extends StatefulWidget {
       @required this.photoUrl,
       @required this.descr,
       @required this.name,
-      @required this.followers,
-      @required this.following,
+      required this.followers,
+      required this.following,
       @required this.userid});
 
   @override
@@ -123,8 +126,8 @@ class _UserProfileState extends State<UserProfile> {
                   )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
                 child: FaIcon(
                   FontAwesomeIcons.ellipsisV,
                   size: 10,
@@ -202,18 +205,18 @@ class _UserProfileState extends State<UserProfile> {
                 child: OutlinedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                        followlist.contains(loggedInUser.uid)
+                        followlist.contains(loggedInUser?.uid)
                             ? Colors.white
                             : Colors.blue,
                       ),
                     ),
                     onPressed: () async {
-                      if (!followlist.contains(loggedInUser.uid.toString())) {
+                      if (!followlist.contains(loggedInUser?.uid.toString())) {
                         setState(() {
                           // widget.followState = 'Unfollow';
                           followers += 1;
                           widget.followers = followers;
-                          followlist.add(loggedInUser.uid.toString());
+                          followlist.add(loggedInUser?.uid.toString());
                           cufollowing += 1;
                         });
                       } else {
@@ -221,7 +224,7 @@ class _UserProfileState extends State<UserProfile> {
                           // widget.followState = 'Follow';
                           followers -= 1;
                           widget.followers = followers;
-                          followlist.remove(loggedInUser.uid.toString());
+                          followlist.remove(loggedInUser?.uid.toString());
                           cufollowing -= 1;
                         });
                       }
@@ -235,21 +238,21 @@ class _UserProfileState extends State<UserProfile> {
                           .doc(widget.userid)
                           .update({'followerlist': followlist});
 
-                      _store.collection('users').doc(loggedInUser.uid).update({
+                      _store.collection('users').doc(loggedInUser?.uid).update({
                         'followinglist': followlist,
                       });
                       _store
                           .collection('users')
-                          .doc(loggedInUser.uid.toString())
+                          .doc(loggedInUser?.uid.toString())
                           .update({'following': cufollowing});
                     },
                     child: Text(
-                      followlist.contains(loggedInUser.uid.toString())
+                      followlist.contains(loggedInUser?.uid.toString())
                           ? 'Unfollow'
                           : 'Follow',
                       style: TextStyle(
                           color:
-                              followlist.contains(loggedInUser.uid.toString())
+                              followlist.contains(loggedInUser?.uid!.toString())
                                   ? Colors.black
                                   : Colors.white),
                     )),
@@ -261,7 +264,7 @@ class _UserProfileState extends State<UserProfile> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return PmScreen(selectedUser: widget.userid);
+                        return PmScreen(selectedUser: widget.userid, name: '', profileUrl: '',);
                       }));
                     },
                     child: Text(
@@ -324,7 +327,7 @@ class Highlights extends StatefulWidget {
   final String name;
   final String url;
 
-  Highlights({@required this.name, @required this.url});
+  Highlights({required this.name, required this.url});
 
   @override
   _HighlightsState createState() => _HighlightsState();
@@ -452,7 +455,7 @@ class _ProfilePostsState extends State<ProfilePosts> {
 class ImagePost extends StatelessWidget {
   final String url;
   final bool isMe = true;
-  ImagePost({@required this.url});
+  ImagePost({required this.url});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -539,9 +542,9 @@ class ProfilePostsStream extends StatelessWidget {
             ),
           );
         }
-        final posts = snapshot.data.docs.reversed;
+        final posts = snapshot.data?.docs.reversed;
 
-        for (var post in posts) {
+        for (var post in posts!) {
           if (post['userid'] == userid) {
             final image = post['url'];
             final imagePost = ImagePost(
@@ -597,7 +600,7 @@ class Highlight extends StatefulWidget {
   final String name;
   final String url;
 
-  Highlight({this.name, this.url});
+  Highlight({required this.name, required this.url});
 
   @override
   _HighlightState createState() => _HighlightState();
@@ -616,7 +619,7 @@ class _HighlightState extends State<Highlight> {
           GestureDetector(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => StoryPageView()));
+                  MaterialPageRoute(builder: (context) => StoryPageView(key: Key('a'),)));
             },
             child: Container(
               width: 60,

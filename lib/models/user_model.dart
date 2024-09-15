@@ -7,11 +7,11 @@ class User {
   final int posts;
 
   User({
-    this.desc,
-    this.profileurl,
-    this.followers,
-    this.following,
-    this.posts,
-    this.name,
+    required this.desc,
+    required this.profileurl,
+    required this.followers,
+    required this.following,
+    required this.posts,
+    required this.name,
   });
 }

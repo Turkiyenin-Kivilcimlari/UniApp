@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //About
 final _auth = FirebaseAuth.instance;
 final _store = FirebaseFirestore.instance;
-User currentUser;
+late User currentUser;
 Future data = _store.collection('users').doc(currentUser.uid).get();
 
 class ProfileModel extends StatelessWidget {
@@ -45,7 +45,7 @@ class ProfileModel extends StatelessWidget {
         ),
         Row(
           children: <Widget>[
-            Text(currentUser.displayName),
+            Text(currentUser.displayName!),
             FaIcon(FontAwesomeIcons.circle),
             Text('Flutter app developer'),
           ],

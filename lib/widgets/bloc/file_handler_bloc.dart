@@ -44,7 +44,7 @@ class FileHandlerBloc extends Bloc<FileHandlerEvent, FileHandlerState> {
       emit(
         FilePicked(
           file.files.first,
-          File(file.files.single.path),
+          File(file.files.single.path.toString()),
         ),
       );
     } on PlatformException catch (e) {

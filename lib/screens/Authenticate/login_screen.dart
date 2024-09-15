@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../nav.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,8 +13,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
   bool showSpinner = false;
-  String email;
-  String password;
+  late String email;
+  late String password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,6 +120,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         EdgeInsets.symmetric(horizontal: 50.0, vertical: 100.0),
                     child: Container(
                       // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.purple,
+                              Colors.deepPurple,
+                              Colors.blueAccent
+                            ],
+                            begin: Alignment.bottomRight,
+                            end: Alignment.topLeft,
+                          ),
+                          borderRadius: BorderRadius.circular(20.0)),
+                      // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
                       child: TextButton(
                           onPressed: () async {
                             setState(() {
@@ -146,17 +158,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.white,
                             ),
                           )),
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.purple,
-                              Colors.deepPurple,
-                              Colors.blueAccent
-                            ],
-                            begin: Alignment.bottomRight,
-                            end: Alignment.topLeft,
-                          ),
-                          borderRadius: BorderRadius.circular(20.0)),
                     ),
                   ),
                 ],

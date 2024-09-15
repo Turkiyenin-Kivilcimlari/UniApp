@@ -3,15 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:nallagram/screens/Profile/user_profile.dart';
-
-import '../../nav.dart';
+import 'package:unipp/screens/Profile/user_profile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
-final currentUsermail = loggedInUser.email;
+
+final currentUsermail = _auth.currentUser?.email;
 
 class ProfileList extends StatelessWidget {
+  const ProfileList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,18 +23,27 @@ class ProfileList extends StatelessWidget {
           backgroundColor: Colors.white,
           leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.back,
                 color: Colors.black,
               )),
         ),
-        body: UsersStream(),
+        body: const UsersStream(),
       ),
     );
   }
 }
 
-class UserBubble extends StatefulWidget {
+Future<bool> validateImageUrl(String url) async {
+  try {
+    final Uri uri = Uri.parse(url);
+    return await canLaunchUrl(uri);
+  } catch (e) {
+    return false;
+  }
+}
+
+class ProfileBubble extends StatefulWidget {
   final String profileUrl;
   final String name;
   final int posts;
@@ -41,21 +52,40 @@ class UserBubble extends StatefulWidget {
   final String descr;
   final String selectedUser;
   final bool isMe;
-  UserBubble(
-      {@required this.profileUrl,
-      @required this.descr,
-      @required this.posts,
-      @required this.followers,
-      @required this.following,
-      @required this.name,
-      @required this.isMe,
-      @required this.selectedUser});
+
+  const ProfileBubble(
+      {Key? key,
+      required this.profileUrl,
+      required this.descr,
+      required this.posts,
+      required this.followers,
+      required this.following,
+      required this.name,
+      required this.isMe,
+      required this.selectedUser})
+      : super(key: key);
 
   @override
-  State<UserBubble> createState() => _UserBubbleState();
+  State<ProfileBubble> createState() => _ProfileBubbleState();
 }
 
-class _UserBubbleState extends State<UserBubble> {
+class _ProfileBubbleState extends State<ProfileBubble> {
+  bool _isValidUrl = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkImageUrl();
+  }
+
+  void _checkImageUrl() async {
+    bool isValid = await validateImageUrl(widget.profileUrl);
+    setState(() {
+      _isValidUrl = isValid;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!widget.isMe) {
@@ -73,7 +103,7 @@ class _UserBubbleState extends State<UserBubble> {
                                 backgroundColor: Colors.white,
                                 leading: IconButton(
                                   onPressed: () => Navigator.pop(context),
-                                  icon: Icon(
+                                  icon: const Icon(
                                     CupertinoIcons.back,
                                     color: Colors.black,
                                   ),
@@ -97,39 +127,44 @@ class _UserBubbleState extends State<UserBubble> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                            backgroundColor: Colors.blueGrey,
-                            radius: 32,
-                            backgroundImage:
-                                CachedNetworkImageProvider(widget.profileUrl)),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0, left: 20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.name == null ? '' : widget.name,
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Metropolis'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Text('Tap to view profile',
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        fontFamily: 'Metropolis')),
-                              ),
-                            ],
-                          ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.blueGrey,
+                        radius: 32,
+                        backgroundImage: _isValidUrl
+                            ? CachedNetworkImageProvider(widget.profileUrl)
+                            : AssetImage('assets/images/default_avatar.png')
+                                as ImageProvider,
+                        // Yedek resim
+                        child: _isValidUrl
+                            ? null
+                            : Icon(Icons.person,
+                                size: 32, color: Colors.white), // Yedek ikon
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0, left: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.name,
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Metropolis'),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 5.0),
+                              child: Text('Tap to view profile',
+                                  style: TextStyle(
+                                      fontSize: 10, fontFamily: 'Metropolis')),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -144,31 +179,42 @@ class _UserBubbleState extends State<UserBubble> {
 }
 
 class UsersStream extends StatelessWidget {
+  const UsersStream({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: _firestore.collection('users').snapshots(),
       builder: (context, snapshot) {
-        List<UserBubble> userBubbles = [];
+        List<ProfileBubble> userBubbles = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),
           );
         }
-        final users = snapshot.data.docs;
+        final users = snapshot.data?.docs;
 
-        for (var user in users) {
-          final profile = user['profile'];
-          final name = user['name'];
-          final followers = user['followers'];
-          final following = user['following'];
-          final descr = user['descr'];
-          final posts = user['posts'];
-          final selectedUid = user['userid'];
-          final currentUser = loggedInUser.displayName;
-          final userBubble = UserBubble(
+        for (var user in users!) {
+          final profile =
+              user.data().toString().contains('profile') ? user['profile'] : '';
+          final name =
+              user.data().toString().contains('name') ? user['name'] : '';
+          final followers = user.data().toString().contains('followers')
+              ? user['followers']
+              : 0;
+          final following = user.data().toString().contains('following')
+              ? user['following']
+              : 0;
+          final descr =
+              user.data().toString().contains('descr') ? user['descr'] : '';
+          final posts =
+              user.data().toString().contains('posts') ? user['posts'] : 0;
+          final selectedUid =
+              user.data().toString().contains('userid') ? user['userid'] : '';
+          final currentUser = _auth.currentUser?.displayName;
+          final userBubble = ProfileBubble(
             descr: descr,
             followers: followers,
             following: following,

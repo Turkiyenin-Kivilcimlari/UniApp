@@ -5,9 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 
+import 'message_bubble.dart';
+
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
-User loggedInUser;
+late User? loggedInUser = _auth.currentUser;
 
 const kSendButtonTextStyle = TextStyle(
   color: Colors.lightBlueAccent,
@@ -48,7 +50,7 @@ class _GroupChatState extends State<GroupChat> {
 
   //initialising firestore
 
-  String messageText;
+  late String messageText;
 
   @override
   void initState() {
@@ -112,7 +114,7 @@ class _GroupChatState extends State<GroupChat> {
                         messageTextController.clear();
                         _firestore.collection('messages').add({
                           'text': messageText,
-                          'sender': loggedInUser.email,
+                          'sender': loggedInUser?.email,
                           'timestamp': FieldValue.serverTimestamp()
                         });
                         //Implement send functionality.
@@ -128,113 +130,6 @@ class _GroupChatState extends State<GroupChat> {
   }
 }
 
-class MessageBubble extends StatelessWidget {
-  final String text;
-  final String sender;
-  final bool isMe;
-  MessageBubble(
-      {@required this.text, @required this.sender, @required this.isMe});
-  @override
-  Widget build(BuildContext context) {
-    if (isMe) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(
-              constraints: BoxConstraints(minWidth: 0, maxWidth: 200),
-              decoration: isAllEmoji(text)
-                  ? BoxDecoration(
-                      color: Colors.transparent,
-                    )
-                  : BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30.0),
-                          topLeft: Radius.circular(30.0),
-                          bottomRight: Radius.circular(30.0)),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.purple,
-                          Colors.deepPurple,
-                          Colors.blueAccent
-                        ],
-                        begin: Alignment.bottomRight,
-                        end: Alignment.topLeft,
-                      ),
-                    ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 20.0),
-                child: Text(
-                  text == null ? '' : text,
-                  style: isAllEmoji(text)
-                      ? TextStyle(fontSize: 25)
-                      : TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontFamily: 'Metropolis'),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5.0),
-              child: Text(
-                sender,
-                style: TextStyle(color: Colors.black54, fontSize: 12),
-              ),
-            ),
-            Container(
-              // elevation: 5.0,
-              constraints: BoxConstraints(minWidth: 0, maxWidth: 200),
-              decoration: isAllEmoji(text)
-                  ? BoxDecoration(
-                      color: Colors.transparent,
-                    )
-                  : BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.pink, Colors.redAccent, Colors.orange],
-                        begin: Alignment.bottomRight,
-                        end: Alignment.topLeft,
-                      ),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0),
-                          bottomRight: Radius.circular(30.0)),
-                    ),
-
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 20.0),
-                child: Text(
-                  text == null ? '' : text,
-                  style: isAllEmoji(text)
-                      ? TextStyle(
-                          fontSize: 25,
-                        )
-                      : TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontFamily: 'Metropolis',
-                        ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-}
 
 class MessageStream extends StatelessWidget {
   @override
@@ -251,12 +146,12 @@ class MessageStream extends StatelessWidget {
             ),
           );
         }
-        final messages = snapshot.data.docs.reversed;
+        final messages = snapshot.data?.docs.reversed;
 
-        for (var message in messages) {
+        for (var message in messages!) {
           final messageText = message['text'];
           final messageSender = message['sender'];
-          final currentUser = loggedInUser.email;
+          final currentUser = loggedInUser?.email;
           final messageBubble = MessageBubble(
             text: messageText,
             sender: messageSender,

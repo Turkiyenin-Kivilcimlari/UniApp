@@ -7,12 +7,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:nallagram/widgets/bloc/file_handler_bloc.dart';
+
+import 'message_bubble.dart';
+
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 bool isOpen = false;
-User loggedInUser;
+late User? loggedInUser = _auth.currentUser;
 
 // const kSendButtonTextStyle = TextStyle(
 //   color: Colors.lightBlueAccent,
@@ -64,9 +66,9 @@ class PmScreen extends StatefulWidget {
   final String name;
 
   PmScreen(
-      {@required this.selectedUser,
-      @required this.name,
-      @required this.profileUrl});
+      {required this.selectedUser,
+      required this.name,
+      required this.profileUrl});
   @override
   _PmScreenState createState() => _PmScreenState();
 }
@@ -76,7 +78,7 @@ class _PmScreenState extends State<PmScreen> {
 
   //initialising firestore
 
-  String messageText;
+  late String messageText;
 
   @override
   void initState() {
@@ -148,7 +150,6 @@ class _PmScreenState extends State<PmScreen> {
               ),
             ),
             DropdownButton2(
-              offset: Offset(-130, 0),
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
@@ -161,24 +162,17 @@ class _PmScreenState extends State<PmScreen> {
                   color: Colors.black,
                 ),
               ),
-              dropdownWidth: 150,
-              dropdownDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              buttonDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
+
               items: [
                 MenuItem(
                   value: 'Block',
                   text: '',
-                  widget: Block(),
+                  widget: Block(key: Key('a'),), key: Key('A'),
                 ),
                 MenuItem(
                   value: 'Report',
                   text: '',
-                  widget: Report(),
+                  widget: Report(key: Key('a'),), key: Key('a'),
                 ),
               ].map<DropdownMenuItem<MenuItem>>((MenuItem value) {
                 return DropdownMenuItem<MenuItem>(
@@ -189,11 +183,14 @@ class _PmScreenState extends State<PmScreen> {
               onMenuStateChange: (isOpen) {
                 onMenuStateChange(isOpen);
               },
-              onChanged: (MenuItem item) {
-                switch (item?.value) {
+              onChanged: (MenuItem? item) {
+                if (item == null) return;
+                switch (item.value) {
                   case 'Block':
+                  // Handle Block action
                     break;
                   case 'Report':
+                  // Handle Report action
                     break;
                 }
               },
@@ -237,24 +234,24 @@ class _PmScreenState extends State<PmScreen> {
                             .collection('users')
                             .doc(widget.selectedUser)
                             .collection('messages')
-                            .doc(loggedInUser.uid)
+                            .doc(loggedInUser?.uid)
                             .collection('pms')
                             .doc()
                             .set({
                           'text': messageText,
-                          'sender': loggedInUser.email,
+                          'sender': loggedInUser?.email,
                           'timestamp': FieldValue.serverTimestamp()
                         });
                         _firestore
                             .collection('users')
-                            .doc(loggedInUser.uid)
+                            .doc(loggedInUser?.uid)
                             .collection('messages')
                             .doc(widget.selectedUser)
                             .collection('pms')
                             .doc()
                             .set({
                           'text': messageText,
-                          'sender': loggedInUser.email,
+                          'sender': loggedInUser?.email,
                           'timestamp': FieldValue.serverTimestamp()
                         });
                         // .add({
@@ -291,118 +288,6 @@ class _PmScreenState extends State<PmScreen> {
   }
 }
 
-class MessageBubble extends StatelessWidget {
-  final String text;
-  final String sender;
-  final bool isMe;
-  MessageBubble(
-      {@required this.text, @required this.sender, @required this.isMe});
-  @override
-  Widget build(BuildContext context) {
-    if (isMe) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(
-              constraints: BoxConstraints(minWidth: 0, maxWidth: 200),
-              decoration: isAllEmoji(text)
-                  ? BoxDecoration(color: Colors.transparent)
-                  : BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30.0),
-                          topLeft: Radius.circular(30.0),
-                          bottomRight: Radius.circular(30.0)),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.purple,
-                          Colors.deepPurple,
-                          Colors.blueAccent
-                        ],
-                        begin: Alignment.bottomRight,
-                        end: Alignment.topLeft,
-                      ),
-                    ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 20.0),
-                child: RichText(
-                  overflow: TextOverflow.clip,
-                  strutStyle: StrutStyle(fontSize: 12.0),
-                  text: TextSpan(
-                    style: isAllEmoji(text)
-                        ? TextStyle(
-                            fontSize: 25,
-                          )
-                        : TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.white,
-                            // fontWeight: FontWeight.w500,
-                            fontFamily: 'Metropolis'),
-                    text: text == null ? '' : text,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5.0),
-              child: Text(
-                sender,
-                style: TextStyle(color: Colors.black54, fontSize: 12),
-              ),
-            ),
-            Container(
-              constraints: BoxConstraints(minWidth: 0, maxWidth: 200),
-              // elevation: 5.0,
-              decoration: isAllEmoji(text)
-                  ? BoxDecoration(
-                      color: Colors.transparent,
-                    )
-                  : BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.pink, Colors.redAccent, Colors.orange],
-                        begin: Alignment.bottomRight,
-                        end: Alignment.topLeft,
-                      ),
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0),
-                          bottomRight: Radius.circular(30.0)),
-                    ),
-
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 20.0),
-                child: Text(
-                  text == null ? '' : text,
-                  style: isAllEmoji(text)
-                      ? TextStyle(
-                          fontSize: 25,
-                        )
-                      : TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontFamily: 'Metropolis',
-                        ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-  }
-}
 
 class MessageStream extends StatelessWidget {
   final selectedUser;
@@ -413,7 +298,7 @@ class MessageStream extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: _firestore
           .collection('users')
-          .doc(loggedInUser.uid)
+          .doc(loggedInUser?.uid)
           .collection('messages')
           .doc(selectedUser)
           .collection('pms')
@@ -428,12 +313,12 @@ class MessageStream extends StatelessWidget {
             ),
           );
         }
-        final messages = snapshot.data.docs.reversed;
+        final messages = snapshot.data?.docs.reversed;
 
-        for (var message in messages) {
+        for (var message in messages!) {
           final messageText = message['text'];
           final messageSender = message['sender'];
-          final currentUser = loggedInUser.email;
+          final currentUser = loggedInUser?.email;
           final messageBubble = MessageBubble(
             text: messageText,
             sender: messageSender,
@@ -457,10 +342,10 @@ class MenuItem extends StatefulWidget {
   final String text;
   final Widget widget;
   const MenuItem({
-    Key key,
-    this.value,
-    this.widget,
-    this.text,
+    required Key key,
+    required this.value,
+    required this.widget,
+    required this.text,
   }) : super(key: key);
 
   @override
@@ -475,7 +360,7 @@ class _MenuItemState extends State<MenuItem> {
 }
 
 class Block extends StatefulWidget {
-  const Block({Key key}) : super(key: key);
+  const Block({required Key key}) : super(key: key);
 
   @override
   State<Block> createState() => _BlockState();
@@ -491,7 +376,7 @@ class _BlockState extends State<Block> {
 }
 
 class Report extends StatefulWidget {
-  const Report({Key key}) : super(key: key);
+  const Report({required Key key}) : super(key: key);
 
   @override
   State<Report> createState() => _ReportState();

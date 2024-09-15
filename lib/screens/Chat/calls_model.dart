@@ -4,12 +4,12 @@ class CallsModel extends StatefulWidget {
   final dynamic icon;
   final String type;
   final String typeDescription;
-  const CallsModel({
-    Key key,
+  const CallsModel({Key? key,
+
     this.icon,
-    this.type,
-    this.typeDescription,
-  }) : super(key: key);
+    required this.type,
+    required this.typeDescription,
+  }) : super(key: key) ;
 
   @override
   State<CallsModel> createState() => _CallsModelState();
@@ -54,7 +54,7 @@ class _CallsModelState extends State<CallsModel> {
                   padding: const EdgeInsets.only(top: 5.0),
                   child: Text(
                     widget.typeDescription,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       fontFamily: 'Metropolis',
                     ),

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:unipp/screens/blog/blog_view.dart';
 
 class BlogElement extends StatelessWidget {
-  BlogElement({
+  const BlogElement({
+    Key? key,
     required this.title,
     required this.comments,
     required this.time,
@@ -12,7 +13,7 @@ class BlogElement extends StatelessWidget {
     required this.author,
     required this.tagColor,
     required this.tagName,
-  });
+  }) : super(key: key);
   final String title;
   final String image;
   final Color tagColor;
@@ -42,7 +43,7 @@ class BlogElement extends StatelessWidget {
                     )));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
@@ -50,7 +51,7 @@ class BlogElement extends StatelessWidget {
               color: Colors.grey.withOpacity(0.2),
               spreadRadius: 1,
               blurRadius: 10,
-              offset: Offset(0, 10), // changes position of shadow
+              offset: const Offset(0, 10), // changes position of shadow
             ),
           ],
           color: Colors.white,
@@ -73,7 +74,7 @@ class BlogElement extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15)),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
@@ -82,14 +83,14 @@ class BlogElement extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 5),
                         decoration: BoxDecoration(
                             color: tagColor,
                             borderRadius: BorderRadius.circular(6)),
                         child: Text(
                           tagName,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: "Metropolis",
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -100,7 +101,7 @@ class BlogElement extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
@@ -113,15 +114,15 @@ class BlogElement extends StatelessWidget {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
+                                const Padding(
+                                  padding: EdgeInsets.only(
                                       left: 8.0, bottom: 2.0, right: 4.0),
                                   child: Icon(Icons.schedule,
                                       color: Colors.grey, size: 20),
                                 ),
                                 Text(
                                   time,
-                                  style: TextStyle(color: Colors.grey),
+                                  style: const TextStyle(color: Colors.grey),
                                 ),
                               ],
                             ),
@@ -129,14 +130,14 @@ class BlogElement extends StatelessWidget {
                               padding: const EdgeInsets.only(right: 50.0),
                               child: Row(
                                 children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 4.0),
+                                  const Padding(
+                                    padding: EdgeInsets.only(right: 4.0),
                                     child: Icon(Icons.chat_bubble_outline,
                                         size: 20, color: Colors.grey),
                                   ),
                                   Text(
                                     comments.toString(),
-                                    style: TextStyle(color: Colors.grey),
+                                    style: const TextStyle(color: Colors.grey),
                                   )
                                 ],
                               ),

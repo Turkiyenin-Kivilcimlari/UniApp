@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:unipp/screens/Chat/user_stream_chat.dart';
 import "calls_model.dart";
 
-
-
-
 class CallsChat extends StatefulWidget {
   static const String id = 'calls_chat';
 
@@ -26,8 +23,6 @@ class _CallsChatState extends State<CallsChat> {
     getCurrentUser();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +30,7 @@ class _CallsChatState extends State<CallsChat> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(CupertinoIcons.back),
+          icon: const Icon(CupertinoIcons.back),
           color: Colors.black,
         ),
         elevation: 0,
@@ -55,19 +50,16 @@ class _CallsChatState extends State<CallsChat> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             CallsModel(
-              icon: CupertinoIcons.phone,
-              type: 'Audio',
-              typeDescription: 'Start with audio'
-            ),
+                icon: CupertinoIcons.phone,
+                type: 'Audio',
+                typeDescription: 'Start with audio'),
             CallsModel(
-              icon: CupertinoIcons.video_camera,
-              type: 'Video',
-              typeDescription: 'Hang out on video'
-            ),
+                icon: CupertinoIcons.video_camera,
+                type: 'Video',
+                typeDescription: 'Hang out on video'),
           ],
         ),
       ),
     );
   }
 }
-

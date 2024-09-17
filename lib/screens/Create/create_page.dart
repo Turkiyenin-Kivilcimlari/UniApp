@@ -54,7 +54,7 @@ void ImageHandler(File image) async {
 }
 
 class Create extends StatelessWidget {
-  Create({Key? key}) : super(key: key);
+  const Create({Key? key}) : super(key: key);
   void _handleURLButtonPress(BuildContext context, var type) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => ImageFromGalleryEx(type)));
@@ -126,7 +126,7 @@ class ImageFromGalleryEx extends StatefulWidget {
   const ImageFromGalleryEx(this.type, {Key? key}) : super(key: key);
 
   @override
-  ImageFromGalleryExState createState() => ImageFromGalleryExState(this.type);
+  ImageFromGalleryExState createState() => ImageFromGalleryExState(type);
 }
 
 class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
@@ -151,7 +151,7 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
               : "Image from Gallery")),
       body: Column(
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: 52,
           ),
           Center(
@@ -164,7 +164,7 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
                   source: source,
                 );
                 setState(() {
-                  if(image != null) {
+                  if (image != null) {
                     _image = File(image.path);
                   }
                 });
@@ -201,7 +201,7 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
             padding: const EdgeInsets.only(top: 46.0),
             child: ElevatedButton(
                 onPressed: () {
-                  if(_image!=null){
+                  if (_image != null) {
                     ImageHandler(_image);
                     Navigator.pushNamed(context, Nav.id);
                   }

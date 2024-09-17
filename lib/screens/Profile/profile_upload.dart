@@ -33,6 +33,8 @@ void imageHandler(File image) async {
 }
 
 class UploadProfile extends StatefulWidget {
+  const UploadProfile({Key? key}) : super(key: key);
+
   @override
   State<UploadProfile> createState() => _UploadProfileState();
 }
@@ -54,12 +56,12 @@ class _UploadProfileState extends State<UploadProfile> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.back,
                 color: Colors.black,
               )),
           backgroundColor: Colors.white,
-          title: Text(
+          title: const Text(
             'Edit Profile',
             style: TextStyle(color: Colors.black),
           ),
@@ -69,8 +71,17 @@ class _UploadProfileState extends State<UploadProfile> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
               child: Container(
+                // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
+                decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Colors.pink, Colors.redAccent, Colors.orange],
+                      begin: Alignment.bottomRight,
+                      end: Alignment.topLeft,
+                    ),
+                    borderRadius: BorderRadius.circular(20.0)),
                 // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
                 child: TextButton(
                     onPressed: () async {
@@ -78,54 +89,26 @@ class _UploadProfileState extends State<UploadProfile> {
                         source: ImageSource.gallery,
                       );
                       setState(() {
-                        if (image.path != null) {
-                          rimage = File(image.path);
-                        }
+                        rimage = File(image.path);
                       });
                       Navigator.pop(context);
                     },
-                    child: Text(
+                    child: const Text(
                       'Upload from Gallery',
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Metropolis',
                           fontWeight: FontWeight.bold),
                     )),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.pink, Colors.redAccent, Colors.orange],
-                      begin: Alignment.bottomRight,
-                      end: Alignment.topLeft,
-                    ),
-                    borderRadius: BorderRadius.circular(20.0)),
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
               child: Container(
                 // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
-                child: TextButton(
-                    onPressed: () async {
-                      // _handleURLButtonPress(context, ImageSourceType.camera);
-                      XFile image = await imagePicker.pickImage(
-                        source: ImageSource.camera,
-                      );
-                      setState(() {
-                        if (image.path != null) {
-                          rimage = File(image.path);
-                        }
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      'Open Camera',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Metropolis',
-                          fontWeight: FontWeight.bold),
-                    )),
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [
                         Colors.purple,
                         Colors.deepPurple,
@@ -135,6 +118,25 @@ class _UploadProfileState extends State<UploadProfile> {
                       end: Alignment.topLeft,
                     ),
                     borderRadius: BorderRadius.circular(20.0)),
+                // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
+                child: TextButton(
+                    onPressed: () async {
+                      // _handleURLButtonPress(context, ImageSourceType.camera);
+                      XFile image = await imagePicker.pickImage(
+                        source: ImageSource.camera,
+                      );
+                      setState(() {
+                        rimage = File(image.path);
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Open Camera',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Metropolis',
+                          fontWeight: FontWeight.bold),
+                    )),
               ),
             ),
           ],

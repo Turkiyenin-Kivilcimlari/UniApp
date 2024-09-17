@@ -11,21 +11,21 @@ class SearchBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ProfileList()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ProfileList()));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 10.0),
         height: 50.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          color: Color.fromARGB(255, 247, 242, 242),
+          color: const Color.fromARGB(255, 247, 242, 242),
         ),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: EdgeInsets.all(15.0),
               child: Text(
                 'Search',
                 style: TextStyle(
@@ -36,7 +36,7 @@ class SearchBox extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
               child: Icon(
                 Icons.search,
                 color: Colors.black,

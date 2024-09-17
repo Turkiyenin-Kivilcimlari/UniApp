@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:unipp/screens/Chat/user_stream_chat.dart';
 import 'calls_chat.dart';
 import 'new_message_chat.dart';
-
 
 class ChatHome extends StatefulWidget {
   static const String id = 'chat_home';
@@ -63,7 +61,7 @@ class _ChatHomeState extends State<ChatHome> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => NewMessageChat(),
+                  builder: (context) => const NewMessageChat(),
                 ),
               );
             },
@@ -79,8 +77,7 @@ class _ChatHomeState extends State<ChatHome> {
       ),
       body: const SafeArea(
         child: UserStream(),
-        ),
-
+      ),
     );
   }
 }

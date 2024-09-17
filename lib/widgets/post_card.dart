@@ -18,13 +18,15 @@ class PostCard extends StatefulWidget {
   final String postID;
 
   PostCard(
-      {required this.likes,
+      {Key? key,
+      required this.likes,
       required this.name,
       // @required this.liked,
       required this.place,
       required this.profilePic,
       required this.postUrl,
-      required this.postID});
+      required this.postID})
+      : super(key: key);
 
   @override
   State<PostCard> createState() => _PostCardState();
@@ -38,7 +40,7 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    _commentButtomPressed() {
+    commentButtomPressed() {
       setState(() {
         Navigator.push(
             context,
@@ -55,19 +57,19 @@ class _PostCardState extends State<PostCard> {
           padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 20.0),
           child: Card(
             color: Colors.white,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(32.0))),
             shadowColor: Colors.black,
             elevation: 40.0,
             child: Container(
               height: 450,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(32)),
                 // image: DecorationImage(
                 //     image: NetworkImage(widget.postUrl), fit: BoxFit.cover),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(32)),
+                borderRadius: const BorderRadius.all(Radius.circular(32)),
                 child: CachedNetworkImage(
                   imageUrl: widget.postUrl,
                   fit: BoxFit.cover,
@@ -77,7 +79,7 @@ class _PostCardState extends State<PostCard> {
                       child: CircularProgressIndicator(
                     color: Colors.red.shade100,
                   )),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),
@@ -124,7 +126,7 @@ class _PostCardState extends State<PostCard> {
             ),
             title: Text(
               widget.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 fontFamily: 'Metropolis',
@@ -133,7 +135,7 @@ class _PostCardState extends State<PostCard> {
             ),
             subtitle: Text(
               widget.place,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 12.0,
                   fontFamily: 'Metropolis',
                   color: Colors.white),
@@ -173,7 +175,7 @@ class _PostCardState extends State<PostCard> {
                               });
                             },
                             child: AnimatedContainer(
-                              duration: Duration(
+                              duration: const Duration(
                                 milliseconds: 400,
                               ),
                               decoration: BoxDecoration(
@@ -186,7 +188,7 @@ class _PostCardState extends State<PostCard> {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Row(
                                   children: <Widget>[
-                                    FaIcon(
+                                    const FaIcon(
                                       FontAwesomeIcons.solidHeart,
                                       color: Colors.white,
                                       size: 20,
@@ -195,7 +197,7 @@ class _PostCardState extends State<PostCard> {
                                       padding: const EdgeInsets.only(left: 8.0),
                                       child: Text(
                                         '${widget.likes}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: 'Metropolis',
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -213,8 +215,8 @@ class _PostCardState extends State<PostCard> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: IconButton(
-                          onPressed: () => _commentButtomPressed(),
-                          icon: FaIcon(
+                          onPressed: () => commentButtomPressed(),
+                          icon: const FaIcon(
                             FontAwesomeIcons.solidCommentDots,
                             size: 20,
                           ),
@@ -228,7 +230,7 @@ class _PostCardState extends State<PostCard> {
                   padding: const EdgeInsets.only(top: 10, right: 20.0),
                   child: LikeButton(
                     likeBuilder: (bool isLiked) {
-                      return FaIcon(
+                      return const FaIcon(
                         FontAwesomeIcons.bookmark,
                         color: Colors.white,
                         size: 20,

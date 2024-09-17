@@ -6,6 +6,8 @@ import '../../nav.dart';
 class LoginScreen extends StatefulWidget {
   static const String id = 'login';
 
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -22,18 +24,18 @@ class _LoginScreenState extends State<LoginScreen> {
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Padding(
-          padding: EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(30.0),
           child: SingleChildScrollView(
             child: ConstrainedBox(
-              constraints: BoxConstraints(),
+              constraints: const BoxConstraints(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                   ),
-                  Center(
+                  const Center(
                     child: Hero(
                       tag: 'logo',
                       child: Text('Nallagram',
@@ -45,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           )),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 100.0,
                   ),
                   Container(
@@ -58,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             email = value;
                             //Do something with the user input.
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter your email',
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 20.0),
@@ -80,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                         TextField(
@@ -90,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             password = value;
                             //Do something with the user input.
                           },
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter your password.',
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 20.0),
@@ -116,12 +118,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 50.0, vertical: 100.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50.0, vertical: 100.0),
                     child: Container(
                       // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [
                               Colors.purple,
                               Colors.deepPurple,
@@ -141,9 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               final user =
                                   await _auth.signInWithEmailAndPassword(
                                       email: email, password: password);
-                              if (user != null) {
-                                Navigator.pushNamed(context, Nav.id);
-                              }
+                              Navigator.pushNamed(context, Nav.id);
                             }
                             //Implement login functionality.
                             catch (e) {
@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               showSpinner = false;
                             }
                           },
-                          child: Text(
+                          child: const Text(
                             'Login',
                             style: TextStyle(
                               color: Colors.white,

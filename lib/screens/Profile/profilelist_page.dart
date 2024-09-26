@@ -134,12 +134,13 @@ class _ProfileBubbleState extends State<ProfileBubble> {
                         radius: 32,
                         backgroundImage: _isValidUrl
                             ? CachedNetworkImageProvider(widget.profileUrl)
-                            : AssetImage('assets/images/default_avatar.png')
+                            : const AssetImage(
+                                    'assets/images/default_avatar.png')
                                 as ImageProvider,
                         // Yedek resim
                         child: _isValidUrl
                             ? null
-                            : Icon(Icons.person,
+                            : const Icon(Icons.person,
                                 size: 32, color: Colors.white), // Yedek ikon
                       ),
                       Padding(

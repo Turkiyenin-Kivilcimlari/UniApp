@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 import '../../widgets/SearchBox.dart';
 import '../../widgets/ctag.dart';
 import '../Posts/postView_model.dart';
@@ -48,22 +47,24 @@ class Explore extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SearchBox(key: Key('a'),),
+        const SearchBox(
+          key: Key('a'),
+        ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: <Widget>[
-              tagBuild('Travel', Colors.pink,context),
-              tagBuild('Architecture', Colors.blue,context),
-              tagBuild('Travel', Colors.orange,context),
-              tagBuild('Technology', Colors.red,context),
-              tagBuild('Flutter', cgen(_colors),context),
-              tagBuild('Python', cgen(_colors),context),
-              tagBuild('Reactjs', cgen(_colors),context),
-              tagBuild('Business', cgen(_colors),context),
-              tagBuild('Design', cgen(_colors),context),
-              tagBuild('Fashion', cgen(_colors),context),
-              tagBuild('Music', cgen(_colors),context),
+              tagBuild('Travel', Colors.pink, context),
+              tagBuild('Architecture', Colors.blue, context),
+              tagBuild('Travel', Colors.orange, context),
+              tagBuild('Technology', Colors.red, context),
+              tagBuild('Flutter', cgen(_colors), context),
+              tagBuild('Python', cgen(_colors), context),
+              tagBuild('Reactjs', cgen(_colors), context),
+              tagBuild('Business', cgen(_colors), context),
+              tagBuild('Design', cgen(_colors), context),
+              tagBuild('Fashion', cgen(_colors), context),
+              tagBuild('Music', cgen(_colors), context),
             ],
           ),
         ),
@@ -71,7 +72,7 @@ class Explore extends StatelessWidget {
         //   height: 20.0,
         // ),
 
-        PostsStream(),
+        const PostsStream(),
       ],
     );
   }
@@ -79,7 +80,7 @@ class Explore extends StatelessWidget {
 
 class ImageBox extends StatelessWidget {
   final imageUrl;
-  ImageBox({@required this.imageUrl});
+  const ImageBox({Key? key, @required this.imageUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +102,8 @@ class ImageBox extends StatelessWidget {
 }
 
 class PostsStream extends StatelessWidget {
+  const PostsStream({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -108,7 +111,7 @@ class PostsStream extends StatelessWidget {
       builder: (context, snapshot) {
         List<ImageBox> imageBoxes = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),
@@ -126,7 +129,7 @@ class PostsStream extends StatelessWidget {
         return Expanded(
           child: GridView.count(
             crossAxisCount: 3,
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children: imageBoxes,

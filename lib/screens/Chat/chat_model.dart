@@ -10,11 +10,10 @@ import 'package:image_picker/image_picker.dart';
 
 import 'message_bubble.dart';
 
-
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 bool isOpen = false;
-late User? loggedInUser = _auth.currentUser;
+User? loggedInUser = _auth.currentUser;
 
 // const kSendButtonTextStyle = TextStyle(
 //   color: Colors.lightBlueAccent,
@@ -23,24 +22,24 @@ late User? loggedInUser = _auth.currentUser;
 // );
 
 bool isAllEmoji(String text) {
-  if (text != null) {
-    for (String s in EmojiParser().unemojify(text).split(" "))
-      if (!s.startsWith(":") || !s.endsWith(":")) return false;
-    return true;
+  for (String s in EmojiParser().unemojify(text).split(" ")) {
+    if (!s.startsWith(":") || !s.endsWith(":")) return false;
   }
+  return true;
   return false;
 }
 
 InputDecoration kMessageTextFieldDecoration = InputDecoration(
-    contentPadding: EdgeInsets.symmetric(
+    contentPadding: const EdgeInsets.symmetric(
       vertical: 10.0,
       horizontal: 20.0,
     ),
-    prefixIcon:
-        IconButton(onPressed: () {}, icon: Icon(Icons.emoji_emotions_outlined)),
-    suffixIcon: IconButton(onPressed: () {}, icon: Icon(Icons.camera_alt)),
+    prefixIcon: IconButton(
+        onPressed: () {}, icon: const Icon(Icons.emoji_emotions_outlined)),
+    suffixIcon:
+        IconButton(onPressed: () {}, icon: const Icon(Icons.camera_alt)),
     hintText: 'Type a message',
-    hintStyle: TextStyle(
+    hintStyle: const TextStyle(
       height: 1.5,
     ),
     border: InputBorder.none);
@@ -65,10 +64,12 @@ class PmScreen extends StatefulWidget {
   final String profileUrl;
   final String name;
 
-  PmScreen(
-      {required this.selectedUser,
+  const PmScreen(
+      {Key? key,
+      required this.selectedUser,
       required this.name,
-      required this.profileUrl});
+      required this.profileUrl})
+      : super(key: key);
   @override
   _PmScreenState createState() => _PmScreenState();
 }
@@ -113,7 +114,7 @@ class _PmScreenState extends State<PmScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(CupertinoIcons.back),
+          icon: const Icon(CupertinoIcons.back),
           color: Colors.black,
         ),
         title: Row(
@@ -126,17 +127,17 @@ class _PmScreenState extends State<PmScreen> {
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
                 widget.name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontFamily: 'Metropolis',
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.videocam,
                 color: Colors.black,
                 size: 30,
@@ -144,35 +145,40 @@ class _PmScreenState extends State<PmScreen> {
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 CupertinoIcons.phone,
                 color: Colors.black,
               ),
             ),
             DropdownButton2(
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
                 fontSize: 16,
               ),
               underline: Container(),
               customButton: Container(
-                child: Icon(
+                child: const Icon(
                   CupertinoIcons.list_bullet,
                   color: Colors.black,
                 ),
               ),
-
               items: [
-                MenuItem(
+                const MenuItem(
                   value: 'Block',
                   text: '',
-                  widget: Block(key: Key('a'),), key: Key('A'),
+                  widget: Block(
+                    key: Key('a'),
+                  ),
+                  key: Key('A'),
                 ),
-                MenuItem(
+                const MenuItem(
                   value: 'Report',
                   text: '',
-                  widget: Report(key: Key('a'),), key: Key('a'),
+                  widget: Report(
+                    key: Key('a'),
+                  ),
+                  key: Key('a'),
                 ),
               ].map<DropdownMenuItem<MenuItem>>((MenuItem value) {
                 return DropdownMenuItem<MenuItem>(
@@ -187,10 +193,10 @@ class _PmScreenState extends State<PmScreen> {
                 if (item == null) return;
                 switch (item.value) {
                   case 'Block':
-                  // Handle Block action
+                    // Handle Block action
                     break;
                   case 'Report':
-                  // Handle Report action
+                    // Handle Report action
                     break;
                 }
               },
@@ -261,13 +267,13 @@ class _PmScreenState extends State<PmScreen> {
                         // });
                         //Implement send functionality.
                       },
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.purple,
+                        radius: 25,
                         child: Icon(
                           Icons.send,
                           color: Colors.white,
                         ),
-                        backgroundColor: Colors.purple,
-                        radius: 25,
                       ),
                     ),
                   ],
@@ -288,11 +294,11 @@ class _PmScreenState extends State<PmScreen> {
   }
 }
 
-
 class MessageStream extends StatelessWidget {
   final selectedUser;
 
-  MessageStream({@required this.selectedUser});
+  const MessageStream({Key? key, @required this.selectedUser})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -307,7 +313,7 @@ class MessageStream extends StatelessWidget {
       builder: (context, snapshot) {
         List<MessageBubble> messageBubbles = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),
@@ -369,7 +375,7 @@ class Block extends StatefulWidget {
 class _BlockState extends State<Block> {
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       'Block',
     );
   }
@@ -385,7 +391,7 @@ class Report extends StatefulWidget {
 class _ReportState extends State<Report> {
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return const Text(
       'Report',
     );
   }

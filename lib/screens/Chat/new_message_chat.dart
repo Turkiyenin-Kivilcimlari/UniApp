@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:unipp/screens/Chat/user_stream_chat.dart';
 
-
 import '../../widgets/SearchBox.dart';
-
 
 class NewMessageChat extends StatefulWidget {
   static const String id = 'new_message_chat';
@@ -35,7 +33,7 @@ class _NewMessageChatState extends State<NewMessageChat> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(CupertinoIcons.back),
+          icon: const Icon(CupertinoIcons.back),
           color: Colors.black,
         ),
         elevation: 0,
@@ -80,4 +78,3 @@ class _NewMessageChatState extends State<NewMessageChat> {
     );
   }
 }
-

@@ -9,15 +9,23 @@ import '../Story/storyview.dart';
 import '../settings/settings.dart';
 import 'edit_profile.dart';
 import 'profile_upload.dart';
+
 final _auth = FirebaseAuth.instance;
 final _store = FirebaseFirestore.instance;
 bool _persposts = true;
-late User? loggedInUser = auth.currentUser;
+User? loggedInUser = auth.currentUser;
 
 void getProfileData() async {
-  final info = await _store.collection('users').doc(loggedInUser?.uid!).get();
+  final info = await _store.collection('users').doc(loggedInUser?.uid).get();
   Map<String, dynamic>? data = info.data();
+  //if (data?['followers'] != null)
   followers = data?['followers'];
+  //else
+  //  followers = 0;
+  //if (data?['following'] != null)
+  followers = data?['following'];
+  //else
+  //  followers = 0;
   following = data?['following'];
   descr = data?['descr'];
   posts = data?['posts'];
@@ -40,6 +48,8 @@ late int followers;
 late int following;
 
 class Profile extends StatefulWidget {
+  const Profile({Key? key}) : super(key: key);
+
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -93,20 +103,20 @@ class _ProfileState extends State<Profile> {
                     padding: const EdgeInsets.only(bottom: 5.0),
                     child: Text(
                       '$posts',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Metropolis'),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Posts',
                     style: TextStyle(fontFamily: 'Metropolis', fontSize: 12),
                   )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
                 child: FaIcon(
                   FontAwesomeIcons.ellipsisV,
                   size: 10,
@@ -119,20 +129,20 @@ class _ProfileState extends State<Profile> {
                     padding: const EdgeInsets.only(bottom: 5.0),
                     child: Text(
                       '$followers',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Metropolis'),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Followers',
                     style: TextStyle(fontFamily: 'Metropolis', fontSize: 12),
                   )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
                 child: FaIcon(
                   FontAwesomeIcons.ellipsisV,
                   size: 10,
@@ -145,13 +155,13 @@ class _ProfileState extends State<Profile> {
                     padding: const EdgeInsets.only(bottom: 4.0),
                     child: Text(
                       '$following',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Metropolis'),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Following',
                     style: TextStyle(fontFamily: 'Metropolis', fontSize: 12),
                   )
@@ -163,7 +173,7 @@ class _ProfileState extends State<Profile> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               loggedInUser!.displayName!.toUpperCase(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Metropolis',
               ),
@@ -173,10 +183,10 @@ class _ProfileState extends State<Profile> {
             padding: const EdgeInsets.only(left: 8.0),
             child: RichText(
               overflow: TextOverflow.clip,
-              strutStyle: StrutStyle(fontSize: 12.0),
+              strutStyle: const StrutStyle(fontSize: 12.0),
               text: TextSpan(
-                  style:
-                      TextStyle(color: Colors.black, fontFamily: 'Metropolis'),
+                  style: const TextStyle(
+                      color: Colors.black, fontFamily: 'Metropolis'),
                   text: descr),
             ),
           ),
@@ -188,29 +198,35 @@ class _ProfileState extends State<Profile> {
                 padding: const EdgeInsets.all(8.0),
                 child: OutlinedButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => EditPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EditPage()));
                     },
-                    child: Text(
+                    child: const Text(
                       'Edit profile',
                       style: TextStyle(color: Colors.black),
                     )),
               )),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                   child: Container(
                 child: OutlinedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  AppSettings(),) );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AppSettings(),
+                          ));
                     },
-                    child: Text(
+                    child: const Text(
                       'Settings',
                       style: TextStyle(color: Colors.black),
                     )),
               )),
             ],
           ),
-          SingleChildScrollView(
+          const SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: <Widget>[
@@ -237,7 +253,7 @@ class _ProfileState extends State<Profile> {
               ],
             ),
           ),
-          ProfilePosts(),
+          const ProfilePosts(),
         ],
       ),
     );
@@ -248,7 +264,8 @@ class Highlights extends StatefulWidget {
   final String name;
   final String url;
 
-  Highlights({required this.name, required this.url});
+  const Highlights({Key? key, required this.name, required this.url})
+      : super(key: key);
 
   @override
   _HighlightsState createState() => _HighlightsState();
@@ -257,14 +274,16 @@ class Highlights extends StatefulWidget {
 class _HighlightsState extends State<Highlights> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
       child: Column(children: <Widget>[]),
     );
   }
 }
 
 class ProfilePosts extends StatefulWidget {
+  const ProfilePosts({Key? key}) : super(key: key);
+
   @override
   _ProfilePostsState createState() => _ProfilePostsState();
 }
@@ -272,7 +291,7 @@ class ProfilePosts extends StatefulWidget {
 class _ProfilePostsState extends State<ProfilePosts> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 500,
       height: 500,
       child: Column(
@@ -304,7 +323,7 @@ class _ProfilePostsState extends State<ProfilePosts> {
                         },
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: FaIcon(
                               FontAwesomeIcons.thLarge,
                               color: _persposts ? Colors.black : Colors.grey,
@@ -339,7 +358,7 @@ class _ProfilePostsState extends State<ProfilePosts> {
                         },
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: FaIcon(
                               FontAwesomeIcons.userTag,
                               size: 15,
@@ -352,7 +371,9 @@ class _ProfilePostsState extends State<ProfilePosts> {
               ),
             ],
           ),
-          _persposts ? ProfilePostsStream() : Expanded(child: Tagged()),
+          _persposts
+              ? const ProfilePostsStream()
+              : const Expanded(child: Tagged()),
         ],
       ),
     );
@@ -362,7 +383,7 @@ class _ProfilePostsState extends State<ProfilePosts> {
 class ImagePost extends StatelessWidget {
   final String url;
   final bool isMe = true;
-  ImagePost({required this.url});
+  const ImagePost({Key? key, required this.url}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     if (isMe) {
@@ -392,6 +413,8 @@ class ImagePost extends StatelessWidget {
 }
 
 class ProfilePostsStream extends StatelessWidget {
+  const ProfilePostsStream({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -403,7 +426,7 @@ class ProfilePostsStream extends StatelessWidget {
       builder: (context, snapshot) {
         List<ImagePost> ImagePosts = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),
@@ -427,9 +450,9 @@ class ProfilePostsStream extends StatelessWidget {
               crossAxisCount: 3,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              children: ImagePosts,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
+              children: ImagePosts,
             ),
           ),
         );
@@ -439,10 +462,12 @@ class ProfilePostsStream extends StatelessWidget {
 }
 
 class Tagged extends StatelessWidget {
+  const Tagged({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
+      child: const Column(
         children: <Widget>[Text('No photos yet')],
       ),
     );
@@ -453,7 +478,8 @@ class Highlight extends StatefulWidget {
   final String name;
   final String url;
 
-  Highlight({required this.name, required this.url});
+  const Highlight({Key? key, required this.name, required this.url})
+      : super(key: key);
 
   @override
   _HighlightState createState() => _HighlightState();
@@ -466,18 +492,22 @@ class _HighlightState extends State<Highlight> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         child: Column(children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: 10.0,
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => StoryPageView(key: Key('a'),)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const StoryPageView(
+                            key: Key('a'),
+                          )));
             },
             child: Container(
               width: 60,
               height: 60,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 gradient: LinearGradient(
                   colors: [Colors.purple, Colors.blue],
@@ -511,10 +541,10 @@ class _HighlightState extends State<Highlight> {
           ),
           Padding(
             // padding: const EdgeInsets.fromLTRB(10.0, 5.0, 8.0, 5.0),
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               widget.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Metropolis',
                 fontSize: 11.0,
                 fontWeight: FontWeight.w700,

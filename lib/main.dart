@@ -12,16 +12,17 @@ import 'root.dart';
 import 'screens/Chat/chat_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -29,22 +30,24 @@ class MyApp extends StatelessWidget {
         Provider<AuthenticationProvider>(
             create: (_) => AuthenticationProvider(FirebaseAuth.instance)),
         StreamProvider(
-            create: (context) =>
-                context.read<AuthenticationProvider>().authStateChanges, initialData: null,)
+          create: (context) =>
+              context.read<AuthenticationProvider>().authStateChanges,
+          initialData: null,
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: Authenticate.id,
         routes: {
-          LoginScreen.id: (context) => LoginScreen(),
+          LoginScreen.id: (context) => const LoginScreen(),
           // ChatScreen.id: (context) => ChatScreen(),
-          NewMessageChat.id: (context) => NewMessageChat(),
-          ChatHome.id: (context) => ChatHome(),
-          CallsChat.id: (context) => CallsChat(),
-          Nav.id: (context) => Nav(),
-          Register.id: (context) => Register(),
-          Welcome.id: (context) => Welcome(),
-          Authenticate.id: (context) => Authenticate(),
+          NewMessageChat.id: (context) => const NewMessageChat(),
+          ChatHome.id: (context) => const ChatHome(),
+          CallsChat.id: (context) => const CallsChat(),
+          Nav.id: (context) => const Nav(),
+          Register.id: (context) => const Register(),
+          Welcome.id: (context) => const Welcome(),
+          Authenticate.id: (context) => const Authenticate(),
         },
       ),
     );
@@ -53,14 +56,16 @@ class MyApp extends StatelessWidget {
 
 class Authenticate extends StatelessWidget {
   static const id = 'auth';
+
+  const Authenticate({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      return Nav();
+      return const Nav();
     }
 
-    return Welcome();
+    return const Welcome();
   }
 }

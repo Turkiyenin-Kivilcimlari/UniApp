@@ -11,6 +11,7 @@ class StoryPageView extends StatefulWidget {
 class _StoryPageViewState extends State<StoryPageView> {
   @override
   final controller = StoryController();
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Material(
@@ -22,7 +23,7 @@ class _StoryPageViewState extends State<StoryPageView> {
                     title:
                         '➡️Features to be added: \n\n\nFollowing mechanism\nAdding caption to photos\nLike storing system\nModifications to chat screen\nA settings page\nEdit profile page\nUpdating Stories\n\n\n 🙂🙂',
                     backgroundColor: Colors.redAccent,
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         height: 1.5,
                         fontFamily: 'Metropolis',
                         fontWeight: FontWeight.bold,
@@ -43,7 +44,7 @@ class _StoryPageViewState extends State<StoryPageView> {
                   alignment: Alignment.topRight,
                   child: IconButton(
                       onPressed: () => Navigator.pop(context),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.close,
                         color: Colors.white,
                       )),

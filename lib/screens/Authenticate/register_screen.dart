@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Register extends StatefulWidget {
   static const String id = 'register';
+
+  const Register({Key? key}) : super(key: key);
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -39,7 +41,7 @@ class _RegisterState extends State<Register> {
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -51,7 +53,7 @@ class _RegisterState extends State<Register> {
               //     child: Image.asset('images/logo.png'),
               //   ),
               // ),
-              SizedBox(
+              const SizedBox(
                 height: 48.0,
               ),
               TextField(
@@ -61,7 +63,7 @@ class _RegisterState extends State<Register> {
                   //Do something with the user input.
                   name = value;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter your name',
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -80,7 +82,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8.0,
               ),
               TextField(
@@ -90,7 +92,7 @@ class _RegisterState extends State<Register> {
                   //Do something with the user input.
                   email = value;
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter your email',
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -109,7 +111,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8.0,
               ),
               TextField(
@@ -120,7 +122,7 @@ class _RegisterState extends State<Register> {
 
                   //Do something with the user input.
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter a 6 digit password',
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -139,14 +141,14 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24.0,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Material(
                   color: Colors.blueAccent,
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(30.0)),
                   elevation: 5.0,
                   child: MaterialButton(
                     onPressed: () async {
@@ -175,9 +177,7 @@ class _RegisterState extends State<Register> {
                           'posts': 0
                         });
 
-                        if (newUser != null) {
-                          Navigator.pushNamed(context, Nav.id);
-                        }
+                        Navigator.pushNamed(context, Nav.id);
                       }
                       //Implement registration functionality.
                       //as it is returning a future we assign a final variable to it
@@ -189,7 +189,7 @@ class _RegisterState extends State<Register> {
                     },
                     minWidth: 200.0,
                     height: 42.0,
-                    child: Text(
+                    child: const Text(
                       'Register',
                       style: TextStyle(color: Colors.white),
                     ),

@@ -4,6 +4,8 @@ import 'login_screen.dart';
 
 class Welcome extends StatefulWidget {
   static const String id = 'welcome';
+
+  const Welcome({Key? key}) : super(key: key);
   @override
   _WelcomeState createState() => _WelcomeState();
 }
@@ -17,10 +19,10 @@ class _WelcomeState extends State<Welcome> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-            Center(
+            const Center(
               child: Hero(
                 tag: 'logo',
                 child: Text('Nallagram',
@@ -37,22 +39,12 @@ class _WelcomeState extends State<Welcome> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50.0, vertical: 20.0),
                     child: Container(
                       // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, LoginScreen.id);
-                          },
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          )),
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [
                               Colors.purple,
                               Colors.deepPurple,
@@ -62,10 +54,21 @@ class _WelcomeState extends State<Welcome> {
                             end: Alignment.topLeft,
                           ),
                           borderRadius: BorderRadius.circular(20.0)),
+                      // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, LoginScreen.id);
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          )),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
+                  const Padding(
+                    padding: EdgeInsets.all(30.0),
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -73,7 +76,7 @@ class _WelcomeState extends State<Welcome> {
                           thickness: 2.0,
                         )),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(
                             'OR',
                             style: TextStyle(color: Colors.grey),
@@ -90,8 +93,8 @@ class _WelcomeState extends State<Welcome> {
                       onPressed: () {
                         Navigator.pushNamed(context, Register.id);
                       },
-                      child: Text('Sign up with Email')),
-                  SizedBox(
+                      child: const Text('Sign up with Email')),
+                  const SizedBox(
                     height: 80.0,
                   ),
                 ],

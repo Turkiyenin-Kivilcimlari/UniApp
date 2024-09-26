@@ -12,6 +12,8 @@ late User currentUser;
 Future data = _store.collection('users').doc(currentUser.uid).get();
 
 class ProfileModel extends StatelessWidget {
+  const ProfileModel({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -21,24 +23,24 @@ class ProfileModel extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(32),
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: NetworkImage(''),
                     fit: BoxFit.cover,
                   )),
             ),
-            Column(
+            const Column(
               children: <Widget>[Text('21'), Text('Posts')],
             ),
-            FaIcon(
+            const FaIcon(
               FontAwesomeIcons.ellipsisV,
             ),
-            Column(
+            const Column(
               children: <Widget>[Text('21'), Text('Followers')],
             ),
-            FaIcon(
+            const FaIcon(
               FontAwesomeIcons.ellipsisV,
             ),
-            Column(
+            const Column(
               children: <Widget>[Text('21'), Text('Following')],
             ),
           ],
@@ -46,14 +48,14 @@ class ProfileModel extends StatelessWidget {
         Row(
           children: <Widget>[
             Text(currentUser.displayName!),
-            FaIcon(FontAwesomeIcons.circle),
-            Text('Flutter app developer'),
+            const FaIcon(FontAwesomeIcons.circle),
+            const Text('Flutter app developer'),
           ],
         ),
         Row(
           children: <Widget>[
-            ElevatedButton(onPressed: () {}, child: Text('Follow')),
-            ElevatedButton(onPressed: () {}, child: Text('Message'))
+            ElevatedButton(onPressed: () {}, child: const Text('Follow')),
+            ElevatedButton(onPressed: () {}, child: const Text('Message'))
           ],
         ),
       ],

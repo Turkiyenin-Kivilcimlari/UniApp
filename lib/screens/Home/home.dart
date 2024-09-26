@@ -3,18 +3,21 @@ import '../../models/story_view_model.dart';
 import '../../widgets/post_card.dart';
 import '../../widgets/story_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 final _firestore = FirebaseFirestore.instance;
 
 List<String> likedusers = [];
 
 class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
   SizedBox spacing() {
-    return SizedBox(
+    return const SizedBox(
       width: 15.0,
     );
   }
@@ -36,43 +39,53 @@ class _HomeState extends State<Home> {
                       spacing(),
                       StoryWid(
                           img: StoryViewData[0].img,
-                          name: StoryViewData[0].name, key:Key('0')),
+                          name: StoryViewData[0].name,
+                          key: const Key('0')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[1].img,
-                          name: StoryViewData[1].name, key:Key('1')),
+                          name: StoryViewData[1].name,
+                          key: const Key('1')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[2].img,
-                          name: StoryViewData[2].name, key:Key('2')),
+                          name: StoryViewData[2].name,
+                          key: const Key('2')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[3].img,
-                          name: StoryViewData[3].name, key:Key('3')),
+                          name: StoryViewData[3].name,
+                          key: const Key('3')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[4].img,
-                          name: StoryViewData[4].name, key:Key('4')),
+                          name: StoryViewData[4].name,
+                          key: const Key('4')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[5].img,
-                          name: StoryViewData[5].name, key:Key('5')),
+                          name: StoryViewData[5].name,
+                          key: const Key('5')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[6].img,
-                          name: StoryViewData[6].name, key:Key('6')),
+                          name: StoryViewData[6].name,
+                          key: const Key('6')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[7].img,
-                          name: StoryViewData[7].name, key:Key('7')),
+                          name: StoryViewData[7].name,
+                          key: const Key('7')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[8].img,
-                          name: StoryViewData[8].name, key:Key('8')),
+                          name: StoryViewData[8].name,
+                          key: const Key('8')),
                       spacing(),
                       StoryWid(
                           img: StoryViewData[9].img,
-                          name: StoryViewData[9].name, key:Key('9')),
+                          name: StoryViewData[9].name,
+                          key: const Key('9')),
                       spacing(),
                     ],
                   ),
@@ -80,10 +93,10 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5.0,
           ),
-          PostStream(),
+          const PostStream(),
         ],
       ),
     ]);
@@ -91,6 +104,8 @@ class _HomeState extends State<Home> {
 }
 
 class PostStream extends StatelessWidget {
+  const PostStream({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -98,7 +113,7 @@ class PostStream extends StatelessWidget {
       builder: (context, snapshot) {
         List<PostCard> postCards = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),
@@ -128,7 +143,7 @@ class PostStream extends StatelessWidget {
         }
         return ListView(
           shrinkWrap: true,
-          physics: ClampingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           children: postCards.reversed.toList(),
         );
       },

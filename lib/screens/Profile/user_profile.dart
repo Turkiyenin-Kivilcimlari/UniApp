@@ -21,7 +21,7 @@ late int cufollowing;
 bool _persposts = true;
 late int followers;
 List<dynamic> followlist = [];
-late User? loggedInUser = _auth.currentUser;
+User? loggedInUser = _auth.currentUser;
 
 void getCurrentUser() {
   try {
@@ -65,13 +65,15 @@ class UserProfile extends StatefulWidget {
   int following;
 
   UserProfile(
-      {@required this.posts,
+      {Key? key,
+      @required this.posts,
       @required this.photoUrl,
       @required this.descr,
       @required this.name,
       required this.followers,
       required this.following,
-      @required this.userid});
+      @required this.userid})
+      : super(key: key);
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -114,13 +116,13 @@ class _UserProfileState extends State<UserProfile> {
                     padding: const EdgeInsets.only(bottom: 5.0),
                     child: Text(
                       '${widget.posts}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Metropolis'),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Posts',
                     style: TextStyle(fontFamily: 'Metropolis', fontSize: 12),
                   )
@@ -140,20 +142,20 @@ class _UserProfileState extends State<UserProfile> {
                     padding: const EdgeInsets.only(bottom: 5.0),
                     child: Text(
                       '${widget.followers}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Metropolis'),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Followers',
                     style: TextStyle(fontFamily: 'Metropolis', fontSize: 12),
                   )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
                 child: FaIcon(
                   FontAwesomeIcons.ellipsisV,
                   size: 10,
@@ -166,13 +168,13 @@ class _UserProfileState extends State<UserProfile> {
                     padding: const EdgeInsets.only(bottom: 4.0),
                     child: Text(
                       '${widget.following}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           fontFamily: 'Metropolis'),
                     ),
                   ),
-                  Text(
+                  const Text(
                     'Following',
                     style: TextStyle(fontFamily: 'Metropolis', fontSize: 12),
                   )
@@ -184,7 +186,7 @@ class _UserProfileState extends State<UserProfile> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               widget.name.toUpperCase(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Metropolis',
               ),
@@ -204,7 +206,7 @@ class _UserProfileState extends State<UserProfile> {
                 padding: const EdgeInsets.all(8.0),
                 child: OutlinedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
+                      backgroundColor: WidgetStateProperty.all<Color>(
                         followlist.contains(loggedInUser?.uid)
                             ? Colors.white
                             : Colors.blue,
@@ -252,22 +254,26 @@ class _UserProfileState extends State<UserProfile> {
                           : 'Follow',
                       style: TextStyle(
                           color:
-                              followlist.contains(loggedInUser?.uid!.toString())
+                              followlist.contains(loggedInUser?.uid.toString())
                                   ? Colors.black
                                   : Colors.white),
                     )),
               )),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                   child: Container(
                 child: OutlinedButton(
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return PmScreen(selectedUser: widget.userid, name: '', profileUrl: '',);
+                        return PmScreen(
+                          selectedUser: widget.userid,
+                          name: '',
+                          profileUrl: '',
+                        );
                       }));
                     },
-                    child: Text(
+                    child: const Text(
                       'Message',
                       style: TextStyle(color: Colors.black),
                     )),
@@ -327,7 +333,8 @@ class Highlights extends StatefulWidget {
   final String name;
   final String url;
 
-  Highlights({required this.name, required this.url});
+  const Highlights({Key? key, required this.name, required this.url})
+      : super(key: key);
 
   @override
   _HighlightsState createState() => _HighlightsState();
@@ -336,8 +343,8 @@ class Highlights extends StatefulWidget {
 class _HighlightsState extends State<Highlights> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
       child: Column(children: <Widget>[]),
     );
   }
@@ -346,7 +353,7 @@ class _HighlightsState extends State<Highlights> {
 class ProfilePosts extends StatefulWidget {
   final userid;
 
-  ProfilePosts({@required this.userid});
+  const ProfilePosts({Key? key, @required this.userid}) : super(key: key);
   @override
   _ProfilePostsState createState() => _ProfilePostsState();
 }
@@ -354,7 +361,7 @@ class ProfilePosts extends StatefulWidget {
 class _ProfilePostsState extends State<ProfilePosts> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 500,
       height: 500,
       child: Column(
@@ -386,7 +393,7 @@ class _ProfilePostsState extends State<ProfilePosts> {
                         },
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: FaIcon(
                               FontAwesomeIcons.thLarge,
                               color: _persposts ? Colors.black : Colors.grey,
@@ -421,7 +428,7 @@ class _ProfilePostsState extends State<ProfilePosts> {
                         },
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: FaIcon(
                               FontAwesomeIcons.userTag,
                               size: 15,
@@ -445,7 +452,7 @@ class _ProfilePostsState extends State<ProfilePosts> {
           ),
           _persposts
               ? ProfilePostsStream(userid: widget.userid)
-              : Expanded(child: Tagged()),
+              : const Expanded(child: Tagged()),
         ],
       ),
     );
@@ -455,7 +462,7 @@ class _ProfilePostsState extends State<ProfilePosts> {
 class ImagePost extends StatelessWidget {
   final String url;
   final bool isMe = true;
-  ImagePost({required this.url});
+  const ImagePost({Key? key, required this.url}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -523,7 +530,7 @@ class ImagePost extends StatelessWidget {
 class ProfilePostsStream extends StatelessWidget {
   final userid;
 
-  ProfilePostsStream({@required this.userid});
+  const ProfilePostsStream({Key? key, @required this.userid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -536,7 +543,7 @@ class ProfilePostsStream extends StatelessWidget {
       builder: (context, snapshot) {
         List<ImagePost> ImagePosts = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),
@@ -555,7 +562,7 @@ class ProfilePostsStream extends StatelessWidget {
         }
         return Expanded(
           child: ImagePosts.isEmpty
-              ? Column(
+              ? const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
@@ -570,9 +577,9 @@ class ProfilePostsStream extends StatelessWidget {
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 10.0,
                     crossAxisCount: 3,
-                    children: ImagePosts,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
+                    children: ImagePosts,
                   ),
                 ),
         );
@@ -582,9 +589,11 @@ class ProfilePostsStream extends StatelessWidget {
 }
 
 class Tagged extends StatelessWidget {
+  const Tagged({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
@@ -600,7 +609,8 @@ class Highlight extends StatefulWidget {
   final String name;
   final String url;
 
-  Highlight({required this.name, required this.url});
+  const Highlight({Key? key, required this.name, required this.url})
+      : super(key: key);
 
   @override
   _HighlightState createState() => _HighlightState();
@@ -613,18 +623,22 @@ class _HighlightState extends State<Highlight> {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         child: Column(children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: 10.0,
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => StoryPageView(key: Key('a'),)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const StoryPageView(
+                            key: Key('a'),
+                          )));
             },
             child: Container(
               width: 60,
               height: 60,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 // boxShadow: [
                 //   BoxShadow(
@@ -666,10 +680,10 @@ class _HighlightState extends State<Highlight> {
           ),
           Padding(
             // padding: const EdgeInsets.fromLTRB(10.0, 5.0, 8.0, 5.0),
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               widget.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Metropolis',
                 fontSize: 11.0,
                 fontWeight: FontWeight.w700,

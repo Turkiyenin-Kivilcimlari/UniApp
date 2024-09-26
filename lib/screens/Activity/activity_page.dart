@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:toast/toast.dart';
 
 import '../../widgets/ctag.dart';
 
 class Activity extends StatelessWidget {
+  const Activity({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    ListTile _followList(String name, String place) {
+    ListTile followList(String name, String place) {
       return ListTile(
-        leading: CircleAvatar(
-          child: Icon(Icons.person),
+        leading: const CircleAvatar(
           radius: 28.0,
+          child: Icon(Icons.person),
         ),
         title: Text(
           name,
@@ -40,8 +41,9 @@ class Activity extends StatelessWidget {
         ),
         onTap: () {
           final snackBar = SnackBar(
-            content: tagBuild('Böyle bir kullanıcı bulunamadı.', Colors.blue, context),
-            duration: Duration(milliseconds: 550),
+            content: tagBuild(
+                'Böyle bir kullanıcı bulunamadı.', Colors.blue, context),
+            duration: const Duration(milliseconds: 550),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
@@ -66,7 +68,7 @@ class Activity extends StatelessWidget {
                   height: 101.0,
                   width: 169.0,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [Colors.pink, Colors.redAccent, Colors.orange],
                         begin: Alignment.bottomRight,
                         end: Alignment.topLeft,
@@ -95,7 +97,7 @@ class Activity extends StatelessWidget {
                               fontSize: 10.0),
                         ),
                         SizedBox(
-                          height:5.0,
+                          height: 5.0,
                         ),
                         Text(
                           '265',
@@ -115,16 +117,27 @@ class Activity extends StatelessWidget {
             //Todo: Randomise Network images
             Expanded(
               child: Card(
-                margin: EdgeInsets.fromLTRB(8.0, 20.0, 10.0, 20.0),
+                margin: const EdgeInsets.fromLTRB(8.0, 20.0, 10.0, 20.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 elevation: 30.0,
                 shadowColor: Colors.blue,
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
+                  padding: const EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
                   height: 101.0,
                   width: 162.0,
+                  decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          Colors.purple,
+                          Colors.deepPurple,
+                          Colors.blueAccent
+                        ],
+                        begin: Alignment.bottomRight,
+                        end: Alignment.topLeft,
+                      ),
+                      borderRadius: BorderRadius.circular(20.0)),
                   child: ListView(children: const <Widget>[
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,41 +174,30 @@ class Activity extends StatelessWidget {
                       ],
                     ),
                   ]),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.purple,
-                          Colors.deepPurple,
-                          Colors.blueAccent
-                        ],
-                        begin: Alignment.bottomRight,
-                        end: Alignment.topLeft,
-                      ),
-                      borderRadius: BorderRadius.circular(20.0)),
                 ),
               ),
             ),
           ],
         ),
-        _followList('Harris', 'Enathu'),
-        _followList('Rahul', 'India'),
-        _followList('Mani', 'Los Angeles'),
-        _followList('Rajpal', 'Newzealand'),
-        _followList('Kim jung', 'Trivandrum'),
-        _followList('Gregory', 'Adoor'),
-        _followList('Rahul', 'New York'),
-        _followList('Devis', 'Kerala'),
-        _followList('Ram', 'Jammu'),
-        _followList('Edwin', 'India'),
-        _followList('Aswathy', 'Kovalam'),
-        _followList('Pranav', 'Thiruvalla'),
-        _followList('Aswin', 'Pala'),
-        _followList('Devu', 'Chenganoor'),
-        _followList('Prakash', 'MAnnady'),
-        _followList('Athul', 'Korea'),
-        _followList('Rajiv', 'Washington'),
-        _followList('Mohanlal', 'AbuDhabi'),
-        _followList('Sethupathi', 'Heaven'),
+        followList('Harris', 'Enathu'),
+        followList('Rahul', 'India'),
+        followList('Mani', 'Los Angeles'),
+        followList('Rajpal', 'Newzealand'),
+        followList('Kim jung', 'Trivandrum'),
+        followList('Gregory', 'Adoor'),
+        followList('Rahul', 'New York'),
+        followList('Devis', 'Kerala'),
+        followList('Ram', 'Jammu'),
+        followList('Edwin', 'India'),
+        followList('Aswathy', 'Kovalam'),
+        followList('Pranav', 'Thiruvalla'),
+        followList('Aswin', 'Pala'),
+        followList('Devu', 'Chenganoor'),
+        followList('Prakash', 'MAnnady'),
+        followList('Athul', 'Korea'),
+        followList('Rajiv', 'Washington'),
+        followList('Mohanlal', 'AbuDhabi'),
+        followList('Sethupathi', 'Heaven'),
       ],
     );
   }

@@ -9,9 +9,11 @@ final _store = FirebaseFirestore.instance;
 late String _name;
 late String _descr;
 
-late User? loggedInUser = _auth.currentUser;
+User? loggedInUser = _auth.currentUser;
 
 class EditPage extends StatefulWidget {
+  const EditPage({Key? key}) : super(key: key);
+
   @override
   _EditPageState createState() => _EditPageState();
 }
@@ -42,11 +44,11 @@ class _EditPageState extends State<EditPage> {
         backgroundColor: Colors.white,
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: Icon(
+            icon: const Icon(
               Icons.close,
               color: Colors.black,
             )),
-        title: Center(
+        title: const Center(
           child: Text(
             'Edit Profile',
             style: TextStyle(color: Colors.black),
@@ -55,7 +57,7 @@ class _EditPageState extends State<EditPage> {
         actions: <Widget>[
           IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.check,
                 color: Colors.purple,
               ))
@@ -88,9 +90,10 @@ class _EditPageState extends State<EditPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => UploadProfile()));
+                                    builder: (context) =>
+                                        const UploadProfile()));
                           },
-                          child: Text(
+                          child: const Text(
                             'Change Profile photo',
                             style: TextStyle(color: Colors.purple),
                           ))
@@ -102,8 +105,8 @@ class _EditPageState extends State<EditPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 8.0),
                       child: Text('Name'),
                     ),
                     TextField(
@@ -113,7 +116,7 @@ class _EditPageState extends State<EditPage> {
                         _name = value;
                         //Do something with the user input.
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         // hintText: 'Enter your email',
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 20.0),
@@ -141,8 +144,8 @@ class _EditPageState extends State<EditPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
                         child: Text('Description'),
                       ),
                       TextField(
@@ -152,7 +155,7 @@ class _EditPageState extends State<EditPage> {
                           _descr = value;
                           //Do something with the user input.
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           // hintText: 'Enter your email',
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 20.0),
@@ -179,23 +182,12 @@ class _EditPageState extends State<EditPage> {
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 50.0, vertical: 100.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 50.0, vertical: 100.0),
                 child: Container(
                   // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                    child: TextButton(
-                        onPressed: () async {},
-                        child: Text(
-                          'Done',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        )),
-                  ),
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [
                           Colors.purple,
                           Colors.deepPurple,
@@ -205,6 +197,18 @@ class _EditPageState extends State<EditPage> {
                         end: Alignment.topLeft,
                       ),
                       borderRadius: BorderRadius.circular(20.0)),
+                  // padding: EdgeInsets.fromLTRB(20.0, 20.0, 50.0, 10.0),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                    child: TextButton(
+                        onPressed: () async {},
+                        child: const Text(
+                          'Done',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        )),
+                  ),
                 ),
               ),
             ],

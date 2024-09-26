@@ -9,7 +9,7 @@ import 'message_bubble.dart';
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
-late User? loggedInUser = _auth.currentUser;
+User? loggedInUser = _auth.currentUser;
 
 const kSendButtonTextStyle = TextStyle(
   color: Colors.lightBlueAccent,
@@ -18,11 +18,10 @@ const kSendButtonTextStyle = TextStyle(
 );
 
 bool isAllEmoji(String text) {
-  if (text != null) {
-    for (String s in EmojiParser().unemojify(text).split(" "))
-      if (!s.startsWith(":") || !s.endsWith(":")) return false;
-    return true;
+  for (String s in EmojiParser().unemojify(text).split(" ")) {
+    if (!s.startsWith(":") || !s.endsWith(":")) return false;
   }
+  return true;
   return false;
 }
 
@@ -40,6 +39,8 @@ const kMessageContainerDecoration = BoxDecoration(
 
 class GroupChat extends StatefulWidget {
   static const String id = 'chat_screen';
+
+  const GroupChat({Key? key}) : super(key: key);
   @override
   _GroupChatState createState() => _GroupChatState();
 }
@@ -76,10 +77,10 @@ class _GroupChatState extends State<GroupChat> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(CupertinoIcons.back),
+          icon: const Icon(CupertinoIcons.back),
           color: Colors.black,
         ),
-        title: Text(
+        title: const Text(
           'Chat',
           style: TextStyle(
               color: Colors.black,
@@ -93,7 +94,7 @@ class _GroupChatState extends State<GroupChat> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            MessageStream(),
+            const MessageStream(),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -119,7 +120,7 @@ class _GroupChatState extends State<GroupChat> {
                         });
                         //Implement send functionality.
                       },
-                      child: FaIcon(FontAwesomeIcons.arrowRight)),
+                      child: const FaIcon(FontAwesomeIcons.arrowRight)),
                 ],
               ),
             ),
@@ -130,8 +131,9 @@ class _GroupChatState extends State<GroupChat> {
   }
 }
 
-
 class MessageStream extends StatelessWidget {
+  const MessageStream({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -140,7 +142,7 @@ class MessageStream extends StatelessWidget {
       builder: (context, snapshot) {
         List<MessageBubble> messageBubbles = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),

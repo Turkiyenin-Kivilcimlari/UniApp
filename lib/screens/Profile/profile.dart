@@ -23,7 +23,6 @@ void getProfileData() async {
   //else
   //  followers = 0;
   //if (data?['following'] != null)
-  followers = data?['following'];
   //else
   //  followers = 0;
   following = data?['following'];
@@ -42,10 +41,10 @@ void getCurrentUser() {
   }
 }
 
-late int posts;
+late int? posts;
 var descr;
-late int followers;
-late int following;
+late int? followers;
+late int? following;
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);

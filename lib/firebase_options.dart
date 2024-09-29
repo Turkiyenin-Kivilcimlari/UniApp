@@ -86,4 +86,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'univercity-b6b05.appspot.com',
     measurementId: 'G-ZJZSP2KYDB',
   );
+
 }

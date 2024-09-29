@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// Firebase Auth import
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:unipp/screens/Authenticate/welcome_screen.dart';
+
+import '../Authenticate/register_screen.dart';
 
 class AppSettings extends StatelessWidget {
   const AppSettings({Key? key}) : super(key: key);
@@ -23,36 +28,45 @@ class AppSettings extends StatelessWidget {
         ),
       ),
       body: ListView(
-        children: const <Widget>[
-          ListTile(
+        children: <Widget>[
+          const ListTile(
             leading: FaIcon(FontAwesomeIcons.userPlus),
             title: Text("Follow and Invite Friends  "),
           ),
-          ListTile(
+          const ListTile(
             leading: FaIcon(FontAwesomeIcons.bell),
             title: Text("Notifications"),
           ),
-          ListTile(
+          const ListTile(
             leading: FaIcon(FontAwesomeIcons.lock),
             title: Text("Privacy"),
           ),
-          ListTile(
+          const ListTile(
             leading: FaIcon(FontAwesomeIcons.shieldAlt),
             title: Text("Security"),
           ),
-          ListTile(
+          const ListTile(
               leading: FaIcon(FontAwesomeIcons.user), title: Text("Account")),
-          ListTile(
+          const ListTile(
             leading: FaIcon(FontAwesomeIcons.questionCircle),
             title: Text("Help"),
           ),
-          ListTile(
+          const ListTile(
             leading: FaIcon(FontAwesomeIcons.exclamationCircle),
             title: Text("About"),
           ),
           ListTile(
-            leading: FaIcon(FontAwesomeIcons.signOutAlt),
-            title: Text("Logout"),
+            leading: const FaIcon(FontAwesomeIcons.signOutAlt),
+            title: const Text("Logout"),
+            onTap: () async {
+              // Firebase Auth sign out
+              await FirebaseAuth.instance.signOut();
+              // Ana sayfaya yönlendirme
+              Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const Welcome()),
+                    (Route<dynamic> route) => false,
+              );
+            },
           ),
         ],
       ),

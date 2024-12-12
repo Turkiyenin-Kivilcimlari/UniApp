@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "285913407097",
+    "project_id": "univercity-b6b05",
+    "storage_bucket": "univercity-b6b05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285913407097:android:bfa526e6b6695336f63ea8",
+        "android_client_info": {
+          "package_name": "com.example.unipp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9X8XL4sR1tqxX-GLu9p_IKsM5icMpONo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

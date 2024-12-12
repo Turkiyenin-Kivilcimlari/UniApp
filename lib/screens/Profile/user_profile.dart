@@ -206,7 +206,7 @@ class _UserProfileState extends State<UserProfile> {
                 padding: const EdgeInsets.all(8.0),
                 child: OutlinedButton(
                     style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(
+                      backgroundColor: MaterialStateProperty.all<Color>(
                         followlist.contains(loggedInUser?.uid)
                             ? Colors.white
                             : Colors.blue,

@@ -1,4 +1,27 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "users",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "followers",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "following",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "descr",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "posts",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }

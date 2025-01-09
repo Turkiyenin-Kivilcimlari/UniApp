@@ -16,6 +16,8 @@ User? loggedInUser = _auth.currentUser;
 
 class Nav extends StatefulWidget {
   static const String id = 'nav';
+
+  const Nav({Key? key}) : super(key: key);
   @override
   _NavState createState() => _NavState();
 }
@@ -38,13 +40,14 @@ class _NavState extends State<Nav> {
   }
 
   final List<Widget> _widgetOptions = [
-    Home(),
+    const Home(),
     Explore(),
-    Create(),
-    Activity(),
-    Profile(),
+    const Create(),
+    const Activity(),
+    const Profile(),
   ];
 
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -72,11 +75,11 @@ class _NavState extends State<Nav> {
         actions: [
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => BlogHome()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const BlogHome()));
             },
             child: Container(
-              padding: EdgeInsets.all(2),
+              padding: const EdgeInsets.all(2),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
@@ -85,7 +88,7 @@ class _NavState extends State<Nav> {
                   end: Alignment.bottomRight,
                 ),
               ),
-              child: Icon(Icons.notes_rounded),
+              child: const Icon(Icons.notes_rounded),
             ),
           ),
           IconButton(

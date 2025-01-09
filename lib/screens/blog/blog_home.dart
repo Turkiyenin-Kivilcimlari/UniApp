@@ -6,21 +6,23 @@ import '../../widgets/ctag.dart';
 import '../../widgets/featured_blog.dart';
 
 class BlogHome extends StatelessWidget {
+  const BlogHome({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
+        title: const Text(
           "Blogs",
           style: TextStyle(color: Colors.black),
         ),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.search))],
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(CupertinoIcons.back),
+          icon: const Icon(CupertinoIcons.back),
         ),
       ),
       body: ListView(
@@ -34,9 +36,8 @@ class BlogHome extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 8.0, top: 34, bottom: 16),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0, top: 34, bottom: 16),
                       child: Text(
                         "Popular",
                         style: TextStyle(
@@ -48,8 +49,8 @@ class BlogHome extends StatelessWidget {
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 34, bottom: 16, right: 8),
-                      child:
-                          TextButton(onPressed: () {}, child: Text("See More")),
+                      child: TextButton(
+                          onPressed: () {}, child: const Text("See More")),
                     )
                   ],
                 ),
@@ -72,9 +73,8 @@ class BlogHome extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 8.0, top: 34, bottom: 16),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 8.0, top: 34, bottom: 16),
                       child: Text(
                         "Latest",
                         style: TextStyle(
@@ -86,8 +86,8 @@ class BlogHome extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(
                           bottom: 16, top: 34, right: 8.0),
-                      child:
-                          TextButton(onPressed: () {}, child: Text("See More")),
+                      child: TextButton(
+                          onPressed: () {}, child: const Text("See More")),
                     )
                   ],
                 ),
@@ -107,9 +107,8 @@ class BlogHome extends StatelessWidget {
                         tagName: allData[index].tName,
                       );
                     }),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 8.0, top: 34, bottom: 16),
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0, top: 34, bottom: 16),
                   child: Text(
                     "Discover",
                     style: TextStyle(
@@ -123,31 +122,31 @@ class BlogHome extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: tagBuild("Coding", Colors.pink,context)),
+                            child: tagBuild("Coding", Colors.pink, context)),
                         Expanded(
-                            child: tagBuild("Travel", Colors.blue,context)),
+                            child: tagBuild("Travel", Colors.blue, context)),
                         Expanded(
-                            child: tagBuild("Flutter", Colors.orange,context))
+                            child: tagBuild("Flutter", Colors.orange, context))
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: tagBuild("Design", Colors.green,context)),
-                        Expanded(child: tagBuild("Art", Colors.cyan,context)),
-                        Expanded(child: tagBuild("React", Colors.red,context))
+                            child: tagBuild("Design", Colors.green, context)),
+                        Expanded(child: tagBuild("Art", Colors.cyan, context)),
+                        Expanded(child: tagBuild("React", Colors.red, context))
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         Expanded(
-                            child: tagBuild("Tech", Colors.purple,context)),
+                            child: tagBuild("Tech", Colors.purple, context)),
                         Expanded(
                             child:
-                                tagBuild("Linux", Colors.deepOrange,context)),
+                                tagBuild("Linux", Colors.deepOrange, context)),
                         Expanded(
                             child: tagBuild(
-                                "More", Colors.deepPurpleAccent,context))
+                                "More", Colors.deepPurpleAccent, context))
                       ],
                     ),
                   ],

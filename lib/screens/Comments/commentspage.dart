@@ -39,7 +39,7 @@ class CommentsPage extends StatefulWidget {
   static const String id = 'comment_screen';
   final postID;
 
-  CommentsPage({@required this.postID});
+  const CommentsPage({Key? key, @required this.postID}) : super(key: key);
 
   @override
   _CommentsPageState createState() => _CommentsPageState();
@@ -77,9 +77,9 @@ class _CommentsPageState extends State<CommentsPage> {
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           color: Colors.black,
-          icon: Icon(CupertinoIcons.back),
+          icon: const Icon(CupertinoIcons.back),
         ),
-        title: Text(
+        title: const Text(
           'Comments',
           style: TextStyle(
               fontFamily: 'Metropolis',
@@ -128,13 +128,13 @@ class _CommentsPageState extends State<CommentsPage> {
                     });
                     //Implement send functionality.
                   },
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.purple,
+                    radius: 25,
                     child: Icon(
                       Icons.send,
                       color: Colors.white,
                     ),
-                    backgroundColor: Colors.purple,
-                    radius: 25,
                   ),
                 ),
               ],
@@ -151,8 +151,9 @@ class CommentBubble extends StatefulWidget {
   final String url;
   final String sender;
 
-  CommentBubble(
-      {required this.text, required this.sender, required this.url});
+  const CommentBubble(
+      {Key? key, required this.text, required this.sender, required this.url})
+      : super(key: key);
 
   @override
   State<CommentBubble> createState() => _CommentBubbleState();
@@ -172,7 +173,7 @@ class _CommentBubbleState extends State<CommentBubble> {
                 CircleAvatar(
                   backgroundImage: NetworkImage(loggedInUser!.photoURL!),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Column(
@@ -186,9 +187,10 @@ class _CommentBubbleState extends State<CommentBubble> {
                           fontFamily: 'Metropolis'),
                     ),
                     Container(
-                      constraints: const BoxConstraints(minWidth: 0, maxWidth: 200),
+                      constraints:
+                          const BoxConstraints(minWidth: 0, maxWidth: 200),
                       child: Text(
-                        widget.text == null ? '' : widget.text,
+                        widget.text ?? '',
                         style: const TextStyle(
                           // fontSize: 16,
                           color: Colors.black,
@@ -257,7 +259,7 @@ class _CommentBubbleState extends State<CommentBubble> {
 class MessageStream extends StatelessWidget {
   final postID;
 
-  MessageStream({@required this.postID});
+  const MessageStream({Key? key, @required this.postID}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -269,7 +271,7 @@ class MessageStream extends StatelessWidget {
       builder: (context, snapshot) {
         List<CommentBubble> messageBubbles = [];
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.lightBlue,
             ),

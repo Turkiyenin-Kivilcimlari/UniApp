@@ -5,8 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'chat_model.dart';
 
-
-
 Future<bool> validateImageUrl(String url) async {
   try {
     final Uri uri = Uri.parse(url);
@@ -15,6 +13,7 @@ Future<bool> validateImageUrl(String url) async {
     return false;
   }
 }
+
 class ChatBubble extends StatefulWidget {
   final String profileUrl;
   final String name;
@@ -23,12 +22,14 @@ class ChatBubble extends StatefulWidget {
   final String selectedUser;
   final bool isMe;
   const ChatBubble(
-      {Key? key, required this.profileUrl,
-        required this.name,
-        required this.message,
-        required this.time,
-        required this.isMe,
-        required this.selectedUser}) : super(key: key);
+      {Key? key,
+      required this.profileUrl,
+      required this.name,
+      required this.message,
+      required this.time,
+      required this.isMe,
+      required this.selectedUser})
+      : super(key: key);
 
   @override
   State<ChatBubble> createState() => _ChatBubbleState();
@@ -84,12 +85,13 @@ class _ChatBubbleState extends State<ChatBubble> {
                       CircleAvatar(
                         backgroundColor: Colors.blueGrey,
                         radius: 32,
-                        backgroundImage:CachedNetworkImageProvider(widget.profileUrl),
+                        backgroundImage:
+                            CachedNetworkImageProvider(widget.profileUrl),
                         // Yedek resim
                         child: _isValidUrl
                             ? null
-                            : Icon(Icons.person,
-                            size: 32, color: Colors.white), // Yedek ikon
+                            : const Icon(Icons.person,
+                                size: 32, color: Colors.white), // Yedek ikon
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0, left: 20.0),
@@ -132,4 +134,3 @@ class _ChatBubbleState extends State<ChatBubble> {
     }
   }
 }
-

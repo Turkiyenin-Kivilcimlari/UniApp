@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-
 Widget tagBuild(String tag, Color color, BuildContext context) {
-
   return GestureDetector(
     onTap: () {
       final snackBar = SnackBar(
         content: tagBuild('Bu İçeriğe Ulaşılamıyor', Colors.red, context),
-        duration: Duration(milliseconds: 550),
+        duration: const Duration(milliseconds: 550),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     },
@@ -30,5 +28,4 @@ Widget tagBuild(String tag, Color color, BuildContext context) {
       ),
     ),
   );
-
 }

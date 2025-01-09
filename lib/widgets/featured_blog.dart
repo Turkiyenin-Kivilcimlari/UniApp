@@ -10,7 +10,7 @@ Widget featuredElement(BuildContext context) {
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.blueGrey,
-          image: DecorationImage(
+          image: const DecorationImage(
             image: NetworkImage(
                 "https://cdn.dribbble.com/users/730703/screenshots/16787857/media/99fc22aa5c7c53e4d08b66e650f64a5a.jpg"),
             fit: BoxFit.cover,
@@ -19,8 +19,8 @@ Widget featuredElement(BuildContext context) {
         ),
       ),
     ),
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+    const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8),
       child: Text(
         "Here is what you need to know about DigiCupid",
         style: TextStyle(
@@ -29,8 +29,8 @@ Widget featuredElement(BuildContext context) {
         ),
       ),
     ),
-    Padding(
-      padding: const EdgeInsets.only(left: 8.0, top: 16),
+    const Padding(
+      padding: EdgeInsets.only(left: 8.0, top: 16),
       child: Row(
         children: <Widget>[
           Row(
@@ -41,7 +41,7 @@ Widget featuredElement(BuildContext context) {
                 size: 20,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: EdgeInsets.only(left: 8.0),
                 child: Text(
                   "5 min ago",
                   style: TextStyle(color: Colors.black45),
@@ -50,7 +50,7 @@ Widget featuredElement(BuildContext context) {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 40.0),
+            padding: EdgeInsets.only(left: 40.0),
             child: Row(
               children: <Widget>[
                 Icon(
@@ -59,7 +59,7 @@ Widget featuredElement(BuildContext context) {
                   size: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
+                  padding: EdgeInsets.only(left: 8.0),
                   child: Text(
                     "20",
                     style: TextStyle(color: Colors.black45),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:unipp/screens/verification/send_code.dart';
 import '../../nav.dart';
 import '../Posts/postView_model.dart';
 import '../Story/storyview.dart';
@@ -209,7 +210,7 @@ class _ProfileState extends State<Profile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AppSettings(),
+                            builder: (context) => SendCode(),
                           ));
                     },
                     child: const Text(

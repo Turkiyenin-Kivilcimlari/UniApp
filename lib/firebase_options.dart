@@ -50,20 +50,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAi1aYB6DP5z48KrldSk3TMPF7R-USVQ-o',
-    appId: '1:243168622483:android:babba9cf0993aa73299a66',
-    messagingSenderId: '243168622483',
-    projectId: 'nallagram-ac',
-    storageBucket: 'nallagram-ac.appspot.com',
+    apiKey: 'AIzaSyB9X8XL4sR1tqxX-GLu9p_IKsM5icMpONo',
+    appId: '1:285913407097:android:bfa526e6b6695336f63ea8',
+    messagingSenderId: '285913407097',
+    projectId: 'univercity-b6b05',
+    storageBucket: 'univercity-b6b05.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDwUlZTdnWEo4SS6ovnm8DU9ISg5g8lK1k',
-    appId: '1:243168622483:ios:98911caf952c5700299a66',
-    messagingSenderId: '243168622483',
-    projectId: 'nallagram-ac',
-    storageBucket: 'nallagram-ac.appspot.com',
-    iosClientId: '243168622483-j2n9iso4qa9lmioou32pik9u431kl49g.apps.googleusercontent.com',
-    iosBundleId: 'com.cyblogerz.nallagram',
+    apiKey: 'AIzaSyAGDZqy4Xix8qCAksP2miAyAMYrniSWL7o',
+    appId: '1:285913407097:ios:3a16eae832c6bab2f63ea8',
+    messagingSenderId: '285913407097',
+    projectId: 'univercity-b6b05',
+    storageBucket: 'univercity-b6b05.appspot.com',
+    iosBundleId: 'com.example.unipp',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyD_RAftgQEWJFiW4cY1SEVEo3Hk7WIyjYk',
+    appId: '1:285913407097:web:c8ef035d45d82d9cf63ea8',
+    messagingSenderId: '285913407097',
+    projectId: 'univercity-b6b05',
+    authDomain: 'univercity-b6b05.firebaseapp.com',
+    storageBucket: 'univercity-b6b05.appspot.com',
+    measurementId: 'G-HYF7S10354',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAGDZqy4Xix8qCAksP2miAyAMYrniSWL7o',
+    appId: '1:285913407097:ios:3a16eae832c6bab2f63ea8',
+    messagingSenderId: '285913407097',
+    projectId: 'univercity-b6b05',
+    storageBucket: 'univercity-b6b05.appspot.com',
+    iosBundleId: 'com.example.unipp',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyD_RAftgQEWJFiW4cY1SEVEo3Hk7WIyjYk',
+    appId: '1:285913407097:web:fefb4ebeefd7ba68f63ea8',
+    messagingSenderId: '285913407097',
+    projectId: 'univercity-b6b05',
+    authDomain: 'univercity-b6b05.firebaseapp.com',
+    storageBucket: 'univercity-b6b05.appspot.com',
+    measurementId: 'G-ZJZSP2KYDB',
+    );
 }

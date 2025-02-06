@@ -79,7 +79,16 @@ class _PostCardState extends State<PostCard> {
                       child: CircularProgressIndicator(
                     color: Colors.red.shade100,
                   )),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.grey[200],
+                    child: const Center(
+                      child: Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 50,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -122,7 +131,12 @@ class _PostCardState extends State<PostCard> {
             leading: CircleAvatar(
               radius: 20.0,
               backgroundColor: Colors.red.shade100,
-              backgroundImage: CachedNetworkImageProvider(widget.profilePic),
+              backgroundImage: CachedNetworkImageProvider(
+                widget.profilePic,
+                errorListener: (error) {
+                  print('Error loading profile image in post card: $error');
+                },
+              ),
             ),
             title: Text(
               widget.name,
